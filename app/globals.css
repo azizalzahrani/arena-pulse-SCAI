@@ -1,0 +1,254 @@
+/* 
+  Arena Pulse - Custom CSS
+  A specialized platform for crowd management in sports venues
+  Optimized for Saudi Arabian stadiums and events
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 142 76% 36%; /* Saudi green */
+    --primary-foreground: 355 100% 97%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 142 76% 36%; /* Saudi green */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142 76% 36%; /* Saudi green */
+    --radius: 0.5rem;
+
+    /* Enhanced color variables for crowd density visualization */
+    --density-low: 142 76% 36%; /* Green for low density */
+    --density-medium: 45 93% 47%; /* Yellow/amber for medium density */
+    --density-high: 24 75% 50%; /* Orange for high density */
+    --density-critical: 0 84% 60%; /* Red for critical density */
+
+    /* Sidebar variables */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 142 76% 36%; /* Saudi green */
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 142 76% 36%; /* Saudi green */
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 142 70% 50%; /* Saudi green - brighter for dark mode */
+    --primary-foreground: 144 80% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 142 70% 50%; /* Saudi green - brighter for dark mode */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 142 70% 50%;
+
+    /* Enhanced color variables for crowd density visualization - dark mode */
+    --density-low: 142 70% 50%; /* Green for low density */
+    --density-medium: 45 93% 55%; /* Yellow/amber for medium density */
+    --density-high: 24 75% 55%; /* Orange for high density */
+    --density-critical: 0 84% 65%; /* Red for critical density */
+
+    /* Sidebar variables */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 142 70% 50%; /* Saudi green - brighter for dark mode */
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 142 70% 50%; /* Saudi green - brighter for dark mode */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Add support for Arabic text */
+.arabic {
+  font-family: var(--font-sans);
+  direction: rtl;
+}
+
+/* RTL specific adjustments */
+html[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+html[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+html[dir="rtl"] .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+html[dir="rtl"] .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+html[dir="rtl"] .right-1 {
+  right: auto;
+  left: 0.25rem;
+}
+
+html[dir="rtl"] .left-1 {
+  left: auto;
+  right: 0.25rem;
+}
+
+/* Custom classes for density indicators - using direct CSS instead of @apply */
+.density-low {
+  background-color: hsl(var(--density-low));
+  color: white;
+}
+.density-medium {
+  background-color: hsl(var(--density-medium));
+  color: black;
+}
+.density-high {
+  background-color: hsl(var(--density-high));
+  color: white;
+}
+.density-critical {
+  background-color: hsl(var(--density-critical));
+  color: white;
+}
+
+/* Animated pulse for critical alerts */
+@keyframes critical-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+.critical-alert {
+  animation: critical-pulse 2s infinite;
+}
+
+/* Arabic font support */
+@font-face {
+  font-family: "Tajawal";
+  src: url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap");
+  font-display: swap;
+}
+
+html.arabic {
+  font-family: "Tajawal", var(--font-sans);
+}
+
+html[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+html[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Calendar RTL fixes */
+html[dir="rtl"] .rdp-caption_label {
+  font-family: "Tajawal", var(--font-sans);
+}
+
+html[dir="rtl"] .rdp-nav_button_previous {
+  transform: rotate(180deg);
+}
+
+html[dir="rtl"] .rdp-nav_button_next {
+  transform: rotate(180deg);
+}
+
+html[dir="rtl"] .rdp-cell {
+  text-align: center;
+}
+
+html[dir="rtl"] .rdp-day_selected,
+html[dir="rtl"] .rdp-day_today {
+  font-family: "Tajawal", var(--font-sans);
+}
+
+/* Fix for event calendar layout */
+.event-calendar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .event-calendar-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Fix for calendar container */
+.calendar-container {
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  padding: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Fix for event details container */
+.event-details-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.event-details-scroll {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 0.5rem;
+  max-height: 350px;
+}
+
