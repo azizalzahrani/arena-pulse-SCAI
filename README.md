@@ -80,7 +80,7 @@ yarn dev
 
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
-
+6. Or access directly [http://localhost:3000]((https://arenapulse.vercel.app/dashboard))
 
 ## 📱 Usage
 
