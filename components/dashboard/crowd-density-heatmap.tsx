@@ -33,7 +33,6 @@ import { Separator } from "@/components/ui/separator"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { ErrorBoundary } from "@/components/error-boundary"
 
 interface HotspotData {
   id: string
@@ -309,7 +308,7 @@ const visualizationModes = [
   { id: "contour", name: "Contour", icon: <BarChart3 className="h-4 w-4" /> },
 ]
 
-function CrowdDensityHeatmapContent() {
+export function CrowdDensityHeatmap() {
   const [activeView, setActiveView] = useState("stadium")
   const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null)
   const [detailsOpen, setDetailsOpen] = useState(false)
@@ -1264,13 +1263,5 @@ function CrowdDensityHeatmapContent() {
         </Dialog>
       </CardContent>
     </Card>
-  )
-}
-
-export function CrowdDensityHeatmap() {
-  return (
-    <ErrorBoundary>
-      <CrowdDensityHeatmapContent />
-    </ErrorBoundary>
   )
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { GateOverviewHeader } from "@/components/gate-overview/gate-overview-header"
 import { GateControlPanel } from "@/components/gate-overview/gate-control-panel"
@@ -15,9 +14,9 @@ export const metadata: Metadata = {
 
 export default function GateOverviewPage() {
   return (
-    <SidebarProvider>
+    <div className="flex min-h-screen">
       <AppSidebar />
-      <SidebarInset>
+      <div className="flex-1 md:ml-[280px]">
         <main className="flex-1 overflow-auto">
           <GateOverviewHeader />
 
@@ -44,7 +43,7 @@ export default function GateOverviewPage() {
             </div>
           </div>
         </main>
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    </div>
   )
 }

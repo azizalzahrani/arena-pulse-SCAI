@@ -1,74 +1,60 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Camera, DetectionBox } from "@/types"
-import { ErrorBoundary } from "@/components/error-boundary"
 
-/**
- * Props for the CameraFeed component
- * @interface CameraFeedProps
- * @property {Camera} camera - The camera data to display
- * @property {boolean} [fullscreen=false] - Whether to display the feed in fullscreen mode
- */
 interface CameraFeedProps {
-  camera: Camera
+  camera: {
+    id: string
+    name: string
+    image: string
+    detectionCount: number
+  }
   fullscreen?: boolean
 }
 
-/**
- * CameraFeed component that displays a simulated camera feed with AI detection boxes.
- * The component generates random detection boxes that move around the feed to simulate
- * real-time object detection.
- * 
- * @example
- * ```tsx
- * <CameraFeed camera={cameraData} />
- * ```
- * 
- * @example
- * ```tsx
- * <CameraFeed camera={cameraData} fullscreen={true} />
- * ```
- */
-function CameraFeedContent({ camera, fullscreen = false }: CameraFeedProps) {
+// Simulated detection boxes
+interface DetectionBox {
+  id: number
+  x: number
+  y: number
+  width: number
+  height: number
+  confidence: number
+}
+
+export function CameraFeed({ camera, fullscreen = false }: CameraFeedProps) {
   const [detections, setDetections] = useState<DetectionBox[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
-  /**
-   * Generates random detection boxes based on the camera's detection count
-   * @returns {DetectionBox[]} Array of generated detection boxes
-   */
-  const generateDetections = () => {
-    const count = camera.detectionCount
-    const newDetections: DetectionBox[] = []
-
-    for (let i = 0; i < count; i++) {
-      const width = Math.floor(Math.random() * 60) + 40 // 40-100px
-      const height = Math.floor(Math.random() * 60) + 60 // 60-120px
-      const x = Math.floor(Math.random() * (dimensions.width - width))
-      const y = Math.floor(Math.random() * (dimensions.height - height))
-      const confidence = Math.floor(Math.random() * 30) + 65 // 65-95%
-
-      newDetections.push({
-        id: i,
-        x,
-        y,
-        width,
-        height,
-        confidence,
-        timestamp: new Date(),
-        type: Math.random() > 0.5 ? "person" : "vehicle"
-      })
-    }
-
-    return newDetections
-  }
-
   // Generate random detection boxes
   useEffect(() => {
+    const generateDetections = () => {
+      const count = camera.detectionCount
+      const newDetections: DetectionBox[] = []
+
+      for (let i = 0; i < count; i++) {
+        const width = Math.floor(Math.random() * 60) + 40 // 40-100px
+        const height = Math.floor(Math.random() * 60) + 60 // 60-120px
+        const x = Math.floor(Math.random() * (dimensions.width - width))
+        const y = Math.floor(Math.random() * (dimensions.height - height))
+        const confidence = Math.floor(Math.random() * 30) + 65 // 65-95%
+
+        newDetections.push({
+          id: i,
+          x,
+          y,
+          width,
+          height,
+          confidence,
+        })
+      }
+
+      setDetections(newDetections)
+    }
+
     if (dimensions.width > 0 && dimensions.height > 0) {
-      setDetections(generateDetections())
+      generateDetections()
 
       // Update detections periodically to simulate movement
       const interval = setInterval(() => {
@@ -77,7 +63,6 @@ function CameraFeedContent({ camera, fullscreen = false }: CameraFeedProps) {
             ...box,
             x: Math.max(0, Math.min(dimensions.width - box.width, box.x + (Math.random() * 10 - 5))),
             y: Math.max(0, Math.min(dimensions.height - box.height, box.y + (Math.random() * 10 - 5))),
-            timestamp: new Date()
           })),
         )
       }, 1000)
@@ -107,7 +92,6 @@ function CameraFeedContent({ camera, fullscreen = false }: CameraFeedProps) {
   return (
     <div
       ref={containerRef}
-      data-testid="camera-feed-container"
       className={`relative overflow-hidden bg-gray-900 ${fullscreen ? "h-[60vh]" : "aspect-video"}`}
     >
       {/* Camera feed background */}
@@ -129,7 +113,6 @@ function CameraFeedContent({ camera, fullscreen = false }: CameraFeedProps) {
         {detections.map((box) => (
           <div
             key={box.id}
-            data-testid="detection-box"
             className="absolute border-2 border-green-500"
             style={{
               left: `${box.x}px`,
@@ -161,13 +144,5 @@ function CameraFeedContent({ camera, fullscreen = false }: CameraFeedProps) {
         AI Processing
       </div>
     </div>
-  )
-}
-
-export function CameraFeed(props: CameraFeedProps) {
-  return (
-    <ErrorBoundary>
-      <CameraFeedContent {...props} />
-    </ErrorBoundary>
   )
 }

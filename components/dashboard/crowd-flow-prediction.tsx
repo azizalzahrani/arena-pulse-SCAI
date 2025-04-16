@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { AIBadge } from "@/components/ui/ai-badge"
 
 // Generate sample crowd flow data
 const generateCrowdFlowData = () => {
@@ -63,8 +64,10 @@ export function CrowdFlowPrediction() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Crowd Flow Prediction</CardTitle>
-        <p className="text-sm text-muted-foreground">Historical and predicted crowd movement</p>
+        <div className="flex items-center justify-between">
+          <CardTitle>Crowd Flow Prediction</CardTitle>
+          <AIBadge />
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">

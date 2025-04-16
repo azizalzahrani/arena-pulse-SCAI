@@ -4,10 +4,12 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Sparkles, Check, ChevronDown } from "lucide-react"
+import { Sparkles, Check, ChevronDown, BrainCircuit } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useToast } from "@/components/ui/use-toast"
+import { AIBadge } from "@/components/ui/ai-badge"
 
-type ModelType = "standard" | "advanced" | "expert"
+type ModelType = "gpt-4o" | "claude-3" | "gemini-pro"
 
 interface ModelInfo {
   name: string
@@ -16,54 +18,64 @@ interface ModelInfo {
   accuracy: number
   latency: string
   badge?: string
+  provider: string
+  specialization: string
 }
 
 const modelData: Record<ModelType, ModelInfo> = {
-  standard: {
-    name: "Standard Prediction Model",
-    description: "Basic prediction capabilities suitable for regular operations",
+  "gpt-4o": {
+    name: "GPT-4o Prediction Engine",
+    description: "Advanced multimodal AI with deep contextual understanding",
     features: [
-      "Crowd density prediction",
-      "Basic flow analysis",
-      "Simple anomaly detection",
-      "30-minute prediction window",
-    ],
-    accuracy: 85,
-    latency: "5 seconds",
-  },
-  advanced: {
-    name: "Advanced Prediction Model",
-    description: "Enhanced predictions with deeper historical analysis",
-    features: [
-      "All Standard features",
-      "Weather impact analysis",
-      "Event correlation",
+      "Real-time crowd flow analysis",
+      "Multi-factor prediction modeling",
+      "Contextual understanding of events",
       "60-minute prediction window",
-      "Sectional crowd flow",
+      "Anomaly detection with explanation",
+    ],
+    accuracy: 94,
+    latency: "3 seconds",
+    badge: "Active",
+    provider: "OpenAI",
+    specialization: "Crowd Dynamics & Event Management",
+  },
+  "claude-3": {
+    name: "Claude-3 Insight Engine",
+    description: "Specialized in nuanced understanding of complex scenarios",
+    features: [
+      "All GPT-4o features",
+      "Enhanced reasoning capabilities",
+      "Cultural context awareness",
+      "90-minute prediction window",
+      "Detailed explanation of predictions",
     ],
     accuracy: 92,
-    latency: "8 seconds",
-    badge: "Recommended",
+    latency: "4 seconds",
+    provider: "Anthropic",
+    specialization: "Security & Risk Assessment",
   },
-  expert: {
-    name: "Expert Prediction Model",
-    description: "Highest accuracy with multi-factor analysis",
+  "gemini-pro": {
+    name: "Gemini Pro Analytics",
+    description: "Optimized for multimodal data processing and visual analysis",
     features: [
-      "All Advanced features",
-      "Multi-venue correlation",
-      "VIP movement prediction",
+      "All Claude-3 features",
+      "Advanced visual processing",
+      "Multi-camera correlation",
       "120-minute prediction window",
-      "Anomaly root cause analysis",
-      "Emergency scenario planning",
+      "Predictive visualization",
+      "Emergency scenario simulation",
     ],
-    accuracy: 97,
-    latency: "12 seconds",
+    accuracy: 96,
+    latency: "5 seconds",
     badge: "Premium",
+    provider: "Google",
+    specialization: "Visual Analysis & Emergency Response",
   },
 }
 
 export function PredictionModels() {
-  const [activeModel, setActiveModel] = useState<ModelType>("advanced")
+  const { toast } = useToast()
+  const [activeModel, setActiveModel] = useState<ModelType>("gpt-4o")
   const [isActivating, setIsActivating] = useState(false)
 
   const handleActivate = () => {
@@ -71,6 +83,10 @@ export function PredictionModels() {
     // Simulate activation process
     setTimeout(() => {
       setIsActivating(false)
+      toast({
+        title: `${model.name} Activated`,
+        description: `The AI prediction engine has been switched to ${model.name}.`,
+      })
     }, 1500)
   }
 
@@ -80,36 +96,39 @@ export function PredictionModels() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>AI Prediction Models</CardTitle>
-            <CardDescription>Select and activate different prediction models</CardDescription>
+          <div className="flex items-center gap-2">
+            <div>
+              <CardTitle>AI Prediction Engines</CardTitle>
+              <CardDescription>Select and activate different AI models for predictions</CardDescription>
+            </div>
+            <AIBadge />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4" />
-                Change Model
+                <BrainCircuit className="h-4 w-4" />
+                Change Engine
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => setActiveModel("standard")}
-                className="flex items-center justify-between"
-              >
-                Standard Model
-                {activeModel === "standard" && <Check className="h-4 w-4 ml-2" />}
+              <DropdownMenuItem onClick={() => setActiveModel("gpt-4o")} className="flex items-center justify-between">
+                GPT-4o Engine
+                {activeModel === "gpt-4o" && <Check className="h-4 w-4 ml-2" />}
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => setActiveModel("advanced")}
+                onClick={() => setActiveModel("claude-3")}
                 className="flex items-center justify-between"
               >
-                Advanced Model
-                {activeModel === "advanced" && <Check className="h-4 w-4 ml-2" />}
+                Claude-3 Engine
+                {activeModel === "claude-3" && <Check className="h-4 w-4 ml-2" />}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setActiveModel("expert")} className="flex items-center justify-between">
-                Expert Model
-                {activeModel === "expert" && <Check className="h-4 w-4 ml-2" />}
+              <DropdownMenuItem
+                onClick={() => setActiveModel("gemini-pro")}
+                className="flex items-center justify-between"
+              >
+                Gemini Pro Engine
+                {activeModel === "gemini-pro" && <Check className="h-4 w-4 ml-2" />}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -125,6 +144,17 @@ export function PredictionModels() {
           </div>
 
           <p className="text-muted-foreground">{model.description}</p>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm font-medium">Provider</span>
+              <p className="text-sm">{model.provider}</p>
+            </div>
+            <div>
+              <span className="text-sm font-medium">Specialization</span>
+              <p className="text-sm">{model.specialization}</p>
+            </div>
+          </div>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -144,7 +174,7 @@ export function PredictionModels() {
           </div>
 
           <div className="space-y-2">
-            <h4 className="text-sm font-medium">Features</h4>
+            <h4 className="text-sm font-medium">Capabilities</h4>
             <ul className="space-y-1">
               {model.features.map((feature, index) => (
                 <li key={index} className="text-sm flex items-center gap-2">
@@ -162,7 +192,10 @@ export function PredictionModels() {
                 Activating...
               </>
             ) : (
-              <>Activate {activeModel.charAt(0).toUpperCase() + activeModel.slice(1)} Model</>
+              <>
+                <Sparkles className="h-4 w-4 mr-2" />
+                {activeModel === "gpt-4o" ? "Currently Active" : `Switch to ${model.name}`}
+              </>
             )}
           </Button>
         </div>

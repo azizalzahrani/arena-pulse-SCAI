@@ -1,14 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { Search, Upload, User, Clock, MapPin, Check, AlertTriangle, Camera } from "lucide-react"
+import { Search, Upload, User, Clock, MapPin, Check, AlertTriangle, Camera, Sparkles } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface LostPersonTrackingProps {
@@ -112,6 +112,15 @@ export function LostPersonTracking({ camera }: LostPersonTrackingProps) {
   return (
     <div className="space-y-4">
       <Card className="bg-gray-800 border-gray-700">
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-white text-lg">Lost Person Tracking</CardTitle>
+            <Badge className="bg-purple-600 text-white">
+              <Sparkles className="h-3.5 w-3.5 mr-1" />
+              AI Powered
+            </Badge>
+          </div>
+        </CardHeader>
         <CardContent className="p-4">
           <h3 className="text-sm font-medium text-white">Lost Person Search</h3>
 

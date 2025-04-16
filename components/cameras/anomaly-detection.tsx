@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { AlertTriangle, Eye, Clock, ArrowRight, BarChart3 } from "lucide-react"
+import { AlertTriangle, Eye, Clock, ArrowRight, BarChart3, Sparkles } from "lucide-react"
 
 interface AnomalyDetectionProps {
   camera: {
@@ -116,75 +116,84 @@ export function AnomalyDetection({ camera }: AnomalyDetectionProps) {
 
   return (
     <div className="space-y-4">
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-white text-lg">Anomaly Detection</CardTitle>
+            <Badge className="bg-purple-600 text-white">
+              <Sparkles className="h-3.5 w-3.5 mr-1" />
+              AI Powered
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium text-white">Behavior Analysis</h3>
+            <Badge
+              variant="outline"
+              className={`${
+                behaviorMetrics.unusualBehavior > 20
+                  ? "bg-red-500/20 text-red-400 border-red-500/50"
+                  : "bg-green-500/20 text-green-400 border-green-500/50"
+              }`}
+            >
+              {behaviorMetrics.unusualBehavior > 20 ? "Anomalies Detected" : "Normal Behavior"}
+            </Badge>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-400">Normal Movement</span>
+                <span>{behaviorMetrics.normalMovement}%</span>
+              </div>
+              <Progress value={behaviorMetrics.normalMovement} className="h-1.5 bg-gray-700">
+                <div className="h-full bg-green-500 rounded-full" />
+              </Progress>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-400">Crowd Density</span>
+                <span>{behaviorMetrics.crowdDensity}%</span>
+              </div>
+              <Progress value={behaviorMetrics.crowdDensity} className="h-1.5 bg-gray-700">
+                <div
+                  className={`h-full rounded-full ${
+                    behaviorMetrics.crowdDensity > 80 ? "bg-red-500" : "bg-yellow-500"
+                  }`}
+                />
+              </Progress>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-400">Flow Direction</span>
+                <span>{behaviorMetrics.flowDirection}%</span>
+              </div>
+              <Progress value={behaviorMetrics.flowDirection} className="h-1.5 bg-gray-700">
+                <div className="h-full bg-blue-500 rounded-full" />
+              </Progress>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-400">Unusual Behavior</span>
+                <span>{behaviorMetrics.unusualBehavior}%</span>
+              </div>
+              <Progress value={behaviorMetrics.unusualBehavior} className="h-1.5 bg-gray-700">
+                <div
+                  className={`h-full rounded-full ${
+                    behaviorMetrics.unusualBehavior > 20 ? "bg-red-500" : "bg-green-500"
+                  }`}
+                />
+              </Progress>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-white">Behavior Analysis</h3>
-              <Badge
-                variant="outline"
-                className={`${
-                  behaviorMetrics.unusualBehavior > 20
-                    ? "bg-red-500/20 text-red-400 border-red-500/50"
-                    : "bg-green-500/20 text-green-400 border-green-500/50"
-                }`}
-              >
-                {behaviorMetrics.unusualBehavior > 20 ? "Anomalies Detected" : "Normal Behavior"}
-              </Badge>
-            </div>
-
-            <div className="mt-4 space-y-3">
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Normal Movement</span>
-                  <span>{behaviorMetrics.normalMovement}%</span>
-                </div>
-                <Progress value={behaviorMetrics.normalMovement} className="h-1.5 bg-gray-700">
-                  <div className="h-full bg-green-500 rounded-full" />
-                </Progress>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Crowd Density</span>
-                  <span>{behaviorMetrics.crowdDensity}%</span>
-                </div>
-                <Progress value={behaviorMetrics.crowdDensity} className="h-1.5 bg-gray-700">
-                  <div
-                    className={`h-full rounded-full ${
-                      behaviorMetrics.crowdDensity > 80 ? "bg-red-500" : "bg-yellow-500"
-                    }`}
-                  />
-                </Progress>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Flow Direction</span>
-                  <span>{behaviorMetrics.flowDirection}%</span>
-                </div>
-                <Progress value={behaviorMetrics.flowDirection} className="h-1.5 bg-gray-700">
-                  <div className="h-full bg-blue-500 rounded-full" />
-                </Progress>
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Unusual Behavior</span>
-                  <span>{behaviorMetrics.unusualBehavior}%</span>
-                </div>
-                <Progress value={behaviorMetrics.unusualBehavior} className="h-1.5 bg-gray-700">
-                  <div
-                    className={`h-full rounded-full ${
-                      behaviorMetrics.unusualBehavior > 20 ? "bg-red-500" : "bg-green-500"
-                    }`}
-                  />
-                </Progress>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <h3 className="text-sm font-medium text-white">Anomaly Types</h3>
@@ -247,94 +256,94 @@ export function AnomalyDetection({ camera }: AnomalyDetectionProps) {
             </Tabs>
           </CardContent>
         </Card>
-      </div>
 
-      <Card className="bg-gray-800 border-gray-700">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-white">Detected Anomalies</h3>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300">
-                <BarChart3 className="h-3.5 w-3.5 mr-1" />
-                Analytics
-              </Button>
-              <Button variant="outline" size="sm" className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300">
-                <Eye className="h-3.5 w-3.5 mr-1" />
-                View All
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto">
-            {anomalies.length > 0 ? (
-              anomalies.map((anomaly) => (
-                <div
-                  key={anomaly.id}
-                  className={`border rounded-md p-3 ${
-                    anomaly.status === "active"
-                      ? "border-red-500/50 bg-red-500/10"
-                      : anomaly.status === "investigating"
-                        ? "border-yellow-500/50 bg-yellow-500/10"
-                        : "border-gray-700 bg-gray-800"
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle
-                        className={`h-5 w-5 mt-0.5 ${
-                          anomaly.severity === "high"
-                            ? "text-red-500"
-                            : anomaly.severity === "medium"
-                              ? "text-yellow-500"
-                              : "text-blue-500"
-                        }`}
-                      />
-                      <div>
-                        <h4 className="text-sm font-medium text-white">{anomaly.description}</h4>
-                        <p className="text-xs text-gray-400 mt-1">
-                          {anomaly.location} • Confidence: {anomaly.confidence}%
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-end gap-1">
-                      {getStatusBadge(anomaly.status)}
-                      {getSeverityBadge(anomaly.severity)}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center text-xs text-gray-500">
-                      <Clock className="h-3.5 w-3.5 mr-1" />
-                      <span>Detected {anomaly.timestamp}</span>
-                    </div>
-
-                    {anomaly.status !== "resolved" && (
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300"
-                        >
-                          <Eye className="h-3.5 w-3.5 mr-1" />
-                          View
-                        </Button>
-                        <Button size="sm" className="h-7 text-xs bg-red-500 hover:bg-red-600 text-white">
-                          Respond
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center h-32 text-gray-500">
-                <AlertTriangle className="h-8 w-8 mb-2 opacity-50" />
-                <p>No anomalies detected in this area</p>
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium text-white">Detected Anomalies</h3>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300">
+                  <BarChart3 className="h-3.5 w-3.5 mr-1" />
+                  Analytics
+                </Button>
+                <Button variant="outline" size="sm" className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300">
+                  <Eye className="h-3.5 w-3.5 mr-1" />
+                  View All
+                </Button>
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+
+            <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto">
+              {anomalies.length > 0 ? (
+                anomalies.map((anomaly) => (
+                  <div
+                    key={anomaly.id}
+                    className={`border rounded-md p-3 ${
+                      anomaly.status === "active"
+                        ? "border-red-500/50 bg-red-500/10"
+                        : anomaly.status === "investigating"
+                          ? "border-yellow-500/50 bg-yellow-500/10"
+                          : "border-gray-700 bg-gray-800"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-3">
+                        <AlertTriangle
+                          className={`h-5 w-5 mt-0.5 ${
+                            anomaly.severity === "high"
+                              ? "text-red-500"
+                              : anomaly.severity === "medium"
+                                ? "text-yellow-500"
+                                : "text-blue-500"
+                          }`}
+                        />
+                        <div>
+                          <h4 className="text-sm font-medium text-white">{anomaly.description}</h4>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {anomaly.location} • Confidence: {anomaly.confidence}%
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        {getStatusBadge(anomaly.status)}
+                        {getSeverityBadge(anomaly.severity)}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-3">
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Clock className="h-3.5 w-3.5 mr-1" />
+                        <span>Detected {anomaly.timestamp}</span>
+                      </div>
+
+                      {anomaly.status !== "resolved" && (
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-xs bg-gray-700 border-gray-600 text-gray-300"
+                          >
+                            <Eye className="h-3.5 w-3.5 mr-1" />
+                            View
+                          </Button>
+                          <Button size="sm" className="h-7 text-xs bg-red-500 hover:bg-red-600 text-white">
+                            Respond
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center h-32 text-gray-500">
+                  <AlertTriangle className="h-8 w-8 mb-2 opacity-50" />
+                  <p>No anomalies detected in this area</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

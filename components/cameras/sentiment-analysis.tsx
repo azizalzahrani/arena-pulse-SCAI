@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Smile, Frown, Meh, Volume2, AlertTriangle, MessageCircle } from "lucide-react"
+import { Smile, Frown, Meh, Volume2, AlertTriangle, MessageCircle, Sparkles } from "lucide-react"
 
 interface SentimentAnalysisProps {
   camera: {
@@ -141,56 +141,65 @@ export function SentimentAnalysis({ camera }: SentimentAnalysisProps) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-gray-800 border-gray-700">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-white">Overall Sentiment</h3>
-              {camera.sentimentScore > 0.7 ? (
-                <Badge className="bg-green-500 text-white">Positive</Badge>
-              ) : camera.sentimentScore > 0.4 ? (
-                <Badge className="bg-yellow-500 text-white">Neutral</Badge>
-              ) : (
-                <Badge className="bg-red-500 text-white">Negative</Badge>
-              )}
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader className="pb-2">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-white text-lg">Crowd Sentiment Analysis</CardTitle>
+            <Badge className="bg-purple-600 text-white">
+              <Sparkles className="h-3.5 w-3.5 mr-1" />
+              AI Powered
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium text-white">Overall Sentiment</h3>
+            {camera.sentimentScore > 0.7 ? (
+              <Badge className="bg-green-500 text-white">Positive</Badge>
+            ) : camera.sentimentScore > 0.4 ? (
+              <Badge className="bg-yellow-500 text-white">Neutral</Badge>
+            ) : (
+              <Badge className="bg-red-500 text-white">Negative</Badge>
+            )}
+          </div>
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center">
+                <Smile className="h-3.5 w-3.5 text-green-500 mr-1" />
+                <span className="text-green-400">Positive</span>
+              </div>
+              <span>{sentimentData.positive}%</span>
             </div>
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center">
-                  <Smile className="h-3.5 w-3.5 text-green-500 mr-1" />
-                  <span className="text-green-400">Positive</span>
-                </div>
-                <span>{sentimentData.positive}%</span>
-              </div>
-              <Progress value={sentimentData.positive} className="h-1.5 bg-gray-700">
-                <div className="h-full bg-green-500 rounded-full" />
-              </Progress>
+            <Progress value={sentimentData.positive} className="h-1.5 bg-gray-700">
+              <div className="h-full bg-green-500 rounded-full" />
+            </Progress>
 
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center">
-                  <Meh className="h-3.5 w-3.5 text-yellow-500 mr-1" />
-                  <span className="text-yellow-400">Neutral</span>
-                </div>
-                <span>{sentimentData.neutral}%</span>
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center">
+                <Meh className="h-3.5 w-3.5 text-yellow-500 mr-1" />
+                <span className="text-yellow-400">Neutral</span>
               </div>
-              <Progress value={sentimentData.neutral} className="h-1.5 bg-gray-700">
-                <div className="h-full bg-yellow-500 rounded-full" />
-              </Progress>
-
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center">
-                  <Frown className="h-3.5 w-3.5 text-red-500 mr-1" />
-                  <span className="text-red-400">Negative</span>
-                </div>
-                <span>{sentimentData.negative}%</span>
-              </div>
-              <Progress value={sentimentData.negative} className="h-1.5 bg-gray-700">
-                <div className="h-full bg-red-500 rounded-full" />
-              </Progress>
+              <span>{sentimentData.neutral}%</span>
             </div>
-          </CardContent>
-        </Card>
+            <Progress value={sentimentData.neutral} className="h-1.5 bg-gray-700">
+              <div className="h-full bg-yellow-500 rounded-full" />
+            </Progress>
 
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center">
+                <Frown className="h-3.5 w-3.5 text-red-500 mr-1" />
+                <span className="text-red-400">Negative</span>
+              </div>
+              <span>{sentimentData.negative}%</span>
+            </div>
+            <Progress value={sentimentData.negative} className="h-1.5 bg-gray-700">
+              <div className="h-full bg-red-500 rounded-full" />
+            </Progress>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">

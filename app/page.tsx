@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { StadiumMetrics } from "@/components/dashboard/stadium-metrics"
@@ -16,9 +15,9 @@ export const metadata: Metadata = {
 
 export default function DashboardPage() {
   return (
-    <SidebarProvider>
+    <div className="flex min-h-screen">
       <AppSidebar />
-      <SidebarInset>
+      <div className="flex-1 md:ml-[280px]">
         <main className="flex-1 overflow-auto">
           <DashboardHeader />
 
@@ -47,7 +46,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </main>
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    </div>
   )
 }
