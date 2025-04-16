@@ -1,16 +1,147 @@
-import { createClient } from "@/lib/supabase"
 import { NextResponse } from "next/server"
-import { sampleGates } from "@/lib/db/gates"
-import { sampleCameras } from "@/lib/db/cameras"
+import { supabase } from "@/lib/supabase"
 
-export async function GET() {
+// Sample data for seeding the database
+const sampleGates = [
+  {
+    name: "North Gate",
+    arabic_name: "البوابة الشمالية",
+    status: "open",
+    type: "main",
+    auto_mode: true,
+    capacity: 200,
+    current_flow: 120,
+    security_level: "normal",
+  },
+  {
+    name: "South Gate",
+    arabic_name: "البوابة الجنوبية",
+    status: "closed",
+    type: "vip",
+    auto_mode: false,
+    capacity: 200,
+    current_flow: 0,
+    security_level: "high",
+  },
+  {
+    name: "East Gate",
+    arabic_name: "البوابة الشرقية",
+    status: "open",
+    type: "staff",
+    auto_mode: true,
+    capacity: 200,
+    current_flow: 90,
+    security_level: "normal",
+  },
+  {
+    name: "West Gate",
+    arabic_name: "البوابة الغربية",
+    status: "maintenance",
+    type: "emergency",
+    auto_mode: false,
+    capacity: 200,
+    current_flow: 0,
+    security_level: "normal",
+  },
+  {
+    name: "VIP Entrance",
+    arabic_name: "مدخل كبار الشخصيات",
+    status: "open",
+    type: "vip",
+    auto_mode: true,
+    capacity: 50,
+    current_flow: 15,
+    security_level: "high",
+  },
+]
+
+const sampleCameras = [
+  {
+    name: "North Gate Camera",
+    location: "North Gate",
+    status: "online",
+    detection_count: 120,
+    sentiment_score: 0.75,
+    anomaly_count: 2,
+    image_url: "/camera-feeds/gate-a.jpg",
+  },
+  {
+    name: "Food Court Camera",
+    location: "Food Court",
+    status: "online",
+    detection_count: 85,
+    sentiment_score: 0.82,
+    anomaly_count: 0,
+    image_url: "/camera-feeds/food-court.jpg",
+  },
+  {
+    name: "Parking North Camera",
+    location: "North Parking Lot",
+    status: "online",
+    detection_count: 45,
+    sentiment_score: 0.65,
+    anomaly_count: 1,
+    image_url: "/camera-feeds/parking-north.jpg",
+  },
+  {
+    name: "VIP Section Camera",
+    location: "VIP Section",
+    status: "offline",
+    detection_count: 0,
+    sentiment_score: 0,
+    anomaly_count: 0,
+    image_url: "/camera-feeds/vip-section.jpg",
+  },
+  {
+    name: "Emergency Exit Camera",
+    location: "Emergency Exit",
+    status: "online",
+    detection_count: 5,
+    sentiment_score: 0.3,
+    anomaly_count: 3,
+    image_url: "/camera-feeds/emergency-exit.jpg",
+  },
+]
+
+const sampleEvents = [
+  {
+    title: "Football Match: Al-Hilal vs Al-Nassr",
+    description: "Saudi Pro League match between Al-Hilal and Al-Nassr",
+    start_time: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
+    end_time: new Date(Date.now() + 86400000 + 7200000).toISOString(), // Tomorrow + 2 hours
+    location: "Main Stadium",
+    event_type: "sports",
+    capacity: 60000,
+  },
+  {
+    title: "Concert: Mohammed Abdu",
+    description: "Live concert featuring Mohammed Abdu",
+    start_time: new Date(Date.now() + 172800000).toISOString(), // Day after tomorrow
+    end_time: new Date(Date.now() + 172800000 + 10800000).toISOString(), // Day after tomorrow + 3 hours
+    location: "Main Stadium",
+    event_type: "concert",
+    capacity: 55000,
+  },
+  {
+    title: "Community Event: Family Day",
+    description: "Family-friendly activities and entertainment",
+    start_time: new Date(Date.now() + 259200000).toISOString(), // 3 days from now
+    end_time: new Date(Date.now() + 259200000 + 21600000).toISOString(), // 3 days from now + 6 hours
+    location: "Stadium Grounds",
+    event_type: "community",
+    capacity: 30000,
+  },
+]
+
+export async function POST() {
   try {
-    const supabase = createClient()
+    // Create tables using direct SQL
+    const createTablesSQL = `
+      -- Enable UUID extension if not already enabled
+      CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-    // Create gates table if it doesn't exist
-    const { error: gatesTableError } = await supabase.rpc("create_table_if_not_exists", {
-      table_name: "gates",
-      table_definition: `
+      -- Create gates table with arena_pulse prefix
+      CREATE TABLE IF NOT EXISTS arena_pulse_gates (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         name TEXT NOT NULL,
         arabic_name TEXT,
@@ -18,135 +149,178 @@ export async function GET() {
         type TEXT NOT NULL,
         auto_mode BOOLEAN DEFAULT false,
         capacity INTEGER NOT NULL,
-        current_flow INTEGER DEFAULT 0,
-        security_level TEXT DEFAULT 'normal',
-        last_activity TIMESTAMP WITH TIME ZONE,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-      `,
-    })
+        current_flow INTEGER NOT NULL DEFAULT 0,
+        security_level TEXT NOT NULL DEFAULT 'normal',
+        last_activity TIMESTAMPTZ,
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        updated_at TIMESTAMPTZ DEFAULT NOW()
+      );
 
-    if (gatesTableError) {
-      console.error("Error creating gates table:", gatesTableError)
-
-      // Try direct SQL approach as fallback
-      const { error: createGatesError } = await supabase.from("gates").select("*", { count: "exact", head: true })
-
-      if (createGatesError) {
-        // Table doesn't exist, try to create it
-        const { error: createTableError } = await supabase.query(`
-          CREATE TABLE IF NOT EXISTS gates (
-            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-            name TEXT NOT NULL,
-            arabic_name TEXT,
-            status TEXT NOT NULL,
-            type TEXT NOT NULL,
-            auto_mode BOOLEAN DEFAULT false,
-            capacity INTEGER NOT NULL,
-            current_flow INTEGER DEFAULT 0,
-            security_level TEXT DEFAULT 'normal',
-            last_activity TIMESTAMP WITH TIME ZONE,
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-            updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-          )
-        `)
-
-        if (createTableError) {
-          console.error("Error creating gates table with direct SQL:", createTableError)
-        }
-      }
-    }
-
-    // Create cameras table if it doesn't exist
-    const { error: camerasTableError } = await supabase.rpc("create_table_if_not_exists", {
-      table_name: "cameras",
-      table_definition: `
+      -- Create cameras table with arena_pulse prefix
+      CREATE TABLE IF NOT EXISTS arena_pulse_cameras (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         name TEXT NOT NULL,
-        arabic_name TEXT,
         location TEXT NOT NULL,
         status TEXT NOT NULL,
         detection_count INTEGER DEFAULT 0,
         sentiment_score FLOAT DEFAULT 0,
         anomaly_count INTEGER DEFAULT 0,
         image_url TEXT,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-      `,
-    })
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        updated_at TIMESTAMPTZ DEFAULT NOW()
+      );
 
-    if (camerasTableError) {
-      console.error("Error creating cameras table:", camerasTableError)
+      -- Create events table with arena_pulse prefix
+      CREATE TABLE IF NOT EXISTS arena_pulse_events (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        title TEXT NOT NULL,
+        description TEXT,
+        start_time TIMESTAMPTZ NOT NULL,
+        end_time TIMESTAMPTZ NOT NULL,
+        location TEXT,
+        event_type TEXT NOT NULL,
+        capacity INTEGER,
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        updated_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `
 
-      // Try direct SQL approach as fallback
-      const { error: createCamerasError } = await supabase.from("cameras").select("*", { count: "exact", head: true })
+    // Execute the SQL to create tables
+    const { error: createTablesError } = await supabase.rpc("exec_sql", { sql_query: createTablesSQL })
 
-      if (createCamerasError) {
-        // Table doesn't exist, try to create it
-        const { error: createTableError } = await supabase.query(`
-          CREATE TABLE IF NOT EXISTS cameras (
-            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-            name TEXT NOT NULL,
-            arabic_name TEXT,
-            location TEXT NOT NULL,
-            status TEXT NOT NULL,
-            detection_count INTEGER DEFAULT 0,
-            sentiment_score FLOAT DEFAULT 0,
-            anomaly_count INTEGER DEFAULT 0,
-            image_url TEXT,
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-            updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-          )
-        `)
+    if (createTablesError) {
+      console.error("Error creating tables:", createTablesError)
 
-        if (createTableError) {
-          console.error("Error creating cameras table with direct SQL:", createTableError)
+      // Try creating tables one by one
+      try {
+        // Create gates table
+        await supabase.rpc("exec_sql", {
+          sql_query: `
+            CREATE TABLE IF NOT EXISTS arena_pulse_gates (
+              id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+              name TEXT NOT NULL,
+              arabic_name TEXT,
+              status TEXT NOT NULL,
+              type TEXT NOT NULL,
+              auto_mode BOOLEAN DEFAULT false,
+              capacity INTEGER NOT NULL,
+              current_flow INTEGER NOT NULL DEFAULT 0,
+              security_level TEXT NOT NULL DEFAULT 'normal',
+              last_activity TIMESTAMPTZ,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              updated_at TIMESTAMPTZ DEFAULT NOW()
+            )
+          `,
+        })
+
+        // Create cameras table
+        await supabase.rpc("exec_sql", {
+          sql_query: `
+            CREATE TABLE IF NOT EXISTS arena_pulse_cameras (
+              id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+              name TEXT NOT NULL,
+              location TEXT NOT NULL,
+              status TEXT NOT NULL,
+              detection_count INTEGER DEFAULT 0,
+              sentiment_score FLOAT DEFAULT 0,
+              anomaly_count INTEGER DEFAULT 0,
+              image_url TEXT,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              updated_at TIMESTAMPTZ DEFAULT NOW()
+            )
+          `,
+        })
+
+        // Create events table
+        await supabase.rpc("exec_sql", {
+          sql_query: `
+            CREATE TABLE IF NOT EXISTS arena_pulse_events (
+              id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+              title TEXT NOT NULL,
+              description TEXT,
+              start_time TIMESTAMPTZ NOT NULL,
+              end_time TIMESTAMPTZ NOT NULL,
+              location TEXT,
+              event_type TEXT NOT NULL,
+              capacity INTEGER,
+              created_at TIMESTAMPTZ DEFAULT NOW(),
+              updated_at TIMESTAMPTZ DEFAULT NOW()
+            )
+          `,
+        })
+      } catch (error) {
+        console.error("Error creating tables individually:", error)
+
+        // If RPC method fails, try direct SQL
+        try {
+          // Create gates table
+          await supabase.from("arena_pulse_gates").insert([]).select().limit(0)
+
+          // Create cameras table
+          await supabase.from("arena_pulse_cameras").insert([]).select().limit(0)
+
+          // Create events table
+          await supabase.from("arena_pulse_events").insert([]).select().limit(0)
+        } catch (error) {
+          console.error("Error creating tables via insert:", error)
         }
       }
     }
 
-    // Seed gates data if table is empty
-    const { count: gatesCount, error: gatesCountError } = await supabase
-      .from("gates")
-      .select("*", { count: "exact", head: true })
+    // Seed gates table if empty
+    try {
+      const { count: gatesCount } = await supabase.from("arena_pulse_gates").select("*", { count: "exact", head: true })
 
-    if (!gatesCountError && (gatesCount === 0 || gatesCount === null)) {
-      // Table exists but is empty, seed it
-      const { error: seedGatesError } = await supabase.from("gates").insert(sampleGates.map(({ id, ...gate }) => gate)) // Remove id to let DB generate it
+      if (gatesCount === 0 || gatesCount === null) {
+        const { error: seedGatesError } = await supabase.from("arena_pulse_gates").insert(sampleGates)
 
-      if (seedGatesError) {
-        console.error("Error seeding gates data:", seedGatesError)
+        if (seedGatesError) {
+          console.error("Error seeding gates:", seedGatesError)
+        }
       }
+    } catch (error) {
+      console.error("Error checking gates table:", error)
     }
 
-    // Seed cameras data if table is empty
-    const { count: camerasCount, error: camerasCountError } = await supabase
-      .from("cameras")
-      .select("*", { count: "exact", head: true })
+    // Seed cameras table if empty
+    try {
+      const { count: camerasCount } = await supabase
+        .from("arena_pulse_cameras")
+        .select("*", { count: "exact", head: true })
 
-    if (!camerasCountError && (camerasCount === 0 || camerasCount === null)) {
-      // Table exists but is empty, seed it
-      const { error: seedCamerasError } = await supabase
-        .from("cameras")
-        .insert(sampleCameras.map(({ id, created_at, updated_at, ...camera }) => camera)) // Remove id and timestamps
+      if (camerasCount === 0 || camerasCount === null) {
+        const { error: seedCamerasError } = await supabase.from("arena_pulse_cameras").insert(sampleCameras)
 
-      if (seedCamerasError) {
-        console.error("Error seeding cameras data:", seedCamerasError)
+        if (seedCamerasError) {
+          console.error("Error seeding cameras:", seedCamerasError)
+        }
       }
+    } catch (error) {
+      console.error("Error checking cameras table:", error)
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Database setup completed. Tables created and seeded if needed.",
-    })
+    // Seed events table if empty
+    try {
+      const { count: eventsCount } = await supabase
+        .from("arena_pulse_events")
+        .select("*", { count: "exact", head: true })
+
+      if (eventsCount === 0 || eventsCount === null) {
+        const { error: seedEventsError } = await supabase.from("arena_pulse_events").insert(sampleEvents)
+
+        if (seedEventsError) {
+          console.error("Error seeding events:", seedEventsError)
+        }
+      }
+    } catch (error) {
+      console.error("Error checking events table:", error)
+    }
+
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error setting up database:", error)
     return NextResponse.json(
-      {
-        success: false,
-        message: "Error setting up database",
-        error: error instanceof Error ? error.message : String(error),
-      },
+      { error: `Error setting up database: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 },
     )
   }

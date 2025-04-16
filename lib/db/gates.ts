@@ -1,5 +1,5 @@
-import { createClient } from "@/lib/supabase"
-import { getTableName } from "./table-utils"
+import { supabase } from "@/lib/supabase"
+import { TableNames } from "./table-utils"
 
 export type Gate = {
   id: string
@@ -16,115 +16,143 @@ export type Gate = {
   updated_at?: string
 }
 
-// Sample data to use when the database is not available
-export const sampleGates = [
+// Sample data to use as fallback
+export const sampleGates: Gate[] = [
   {
     id: "1",
-    name: "North Gate",
-    arabic_name: "البوابة الشمالية",
+    name: "Gate A",
+    arabic_name: "بوابة أ",
     status: "open",
-    type: "entrance",
+    type: "main",
     auto_mode: true,
-    capacity: 200,
+    capacity: 5000,
     current_flow: 120,
     security_level: "normal",
     last_activity: new Date().toISOString(),
   },
   {
     id: "2",
-    name: "South Gate",
-    arabic_name: "البوابة الجنوبية",
-    status: "open",
-    type: "entrance",
-    auto_mode: true,
-    capacity: 200,
-    current_flow: 160,
-    security_level: "elevated",
+    name: "Gate B",
+    arabic_name: "بوابة ب",
+    status: "closed",
+    type: "vip",
+    auto_mode: false,
+    capacity: 1000,
+    current_flow: 0,
+    security_level: "high",
     last_activity: new Date().toISOString(),
   },
   {
     id: "3",
-    name: "East Gate",
-    arabic_name: "البوابة الشرقية",
+    name: "Gate C",
+    arabic_name: "بوابة ج",
     status: "open",
-    type: "entrance",
-    auto_mode: false,
-    capacity: 200,
-    current_flow: 90,
+    type: "staff",
+    auto_mode: true,
+    capacity: 500,
+    current_flow: 45,
     security_level: "normal",
     last_activity: new Date().toISOString(),
   },
   {
     id: "4",
-    name: "West Gate",
-    arabic_name: "البوابة الغربية",
-    status: "open",
-    type: "entrance",
-    auto_mode: true,
-    capacity: 200,
-    current_flow: 150,
-    security_level: "normal",
-    last_activity: new Date().toISOString(),
-  },
-  {
-    id: "5",
-    name: "VIP Entrance",
-    arabic_name: "مدخل كبار الشخصيات",
-    status: "open",
-    type: "vip",
+    name: "Gate D",
+    arabic_name: "بوابة د",
+    status: "maintenance",
+    type: "emergency",
     auto_mode: false,
-    capacity: 50,
-    current_flow: 15,
-    security_level: "high",
+    capacity: 2000,
+    current_flow: 0,
+    security_level: "normal",
     last_activity: new Date().toISOString(),
   },
 ]
 
-// Cache the table name to avoid repeated lookups
-let gatesTableName: string | null = null
+// Get the table name for gates
+// const gatesTable = getTableName("gates")
+// Use this instead:
+const gatesTable = TableNames.GATES
 
-export async function getGates(): Promise<Gate[]> {
+export async function fetchGates(): Promise<Gate[]> {
   try {
-    const supabase = createClient()
-
-    // Get the correct table name (cached after first lookup)
-    if (!gatesTableName) {
-      gatesTableName = await getTableName("gates")
-    }
-
-    const { data, error } = await supabase.from(gatesTableName).select("*")
+    // Try to fetch from the prefixed table
+    const { data, error } = await supabase.from(gatesTable).select("*")
 
     if (error) {
-      console.error("Error fetching gates:", error)
-      return sampleGates
+      console.error(`Error fetching from ${gatesTable}:`, error)
+
+      // Try the unprefixed table as fallback
+      const fallbackResult = await supabase.from("gates").select("*")
+
+      if (fallbackResult.error) {
+        console.error("Error fetching from gates:", fallbackResult.error)
+        // Return sample data as fallback
+        return sampleGates
+      }
+
+      return fallbackResult.data || []
     }
 
-    return data || sampleGates
-  } catch (error) {
-    console.error("Exception fetching gates:", error)
+    return data || []
+  } catch (err) {
+    console.error("Error fetching gates:", err)
+    // Return sample data as fallback
     return sampleGates
   }
 }
 
-export async function getGateById(id: string): Promise<Gate | null> {
+export async function createGate(gate: Omit<Gate, "id" | "created_at" | "updated_at">): Promise<Gate | null> {
   try {
-    const supabase = createClient()
-
-    // Get the correct table name (cached after first lookup)
-    if (!gatesTableName) {
-      gatesTableName = await getTableName("gates")
-    }
-
-    const { data, error } = await supabase.from(gatesTableName).select("*").eq("id", id).single()
+    const { data, error } = await supabase.from(gatesTable).insert(gate).select().single()
 
     if (error) {
-      console.error("Error fetching gate:", error)
-      return sampleGates.find((gate) => gate.id === id) || null
+      console.error(`Error creating gate in ${gatesTable}:`, error)
+      return null
     }
 
     return data
-  } catch (error) {
-    console.error("Exception fetching gate:", error)
-    return sampleGates.find((gate) => gate.id === id) || null
+  } catch (err) {
+    console.error("Error creating gate:", err)
+    return null
+  }
+}
+
+export async function updateGate(
+  id: string,
+  gate: Partial<Omit<Gate, "id" | "created_at" | "updated_at">>,
+): Promise<Gate | null> {
+  try {
+    const { data, error } = await supabase
+      .from(gatesTable)
+      .update({ ...gate, updated_at: new Date().toISOString() })
+      .eq("id", id)
+      .select()
+      .single()
+
+    if (error) {
+      console.error(`Error updating gate in ${gatesTable}:`, error)
+      return null
+    }
+
+    return data
+  } catch (err) {
+    console.error("Error updating gate:", err)
+    return null
+  }
+}
+
+export async function deleteGate(id: string): Promise<boolean> {
+  try {
+    const { error } = await supabase.from(gatesTable).delete().eq("id", id)
+
+    if (error) {
+      console.error(`Error deleting gate from ${gatesTable}:`, error)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error("Error deleting gate:", err)
+    return false
   }
 }

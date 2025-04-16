@@ -12,6 +12,7 @@ import {
   Car,
   HandIcon as PrayingHands,
   Menu,
+  Settings,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -66,6 +67,12 @@ export function AppSidebar({ className }: SidebarProps) {
       icon: PrayingHands,
       href: "/prayer-facilities",
       active: pathname === "/prayer-facilities",
+    },
+    {
+      label: "Admin Dashboard",
+      icon: Settings,
+      href: "/admin",
+      active: pathname === "/admin" || pathname.startsWith("/admin/"),
     },
   ]
 

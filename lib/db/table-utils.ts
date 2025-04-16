@@ -1,27 +1,20 @@
-import { createClient } from "@/lib/supabase"
+/**
+ * Utility function to get the correct table name with prefix
+ * This helps maintain consistent table naming across the application
+ */
+export function getTableName(baseName: string): string {
+  // Use the arena_pulse prefix for all tables
+  return `arena_pulse_${baseName}`
+}
 
-// This function tries to determine the correct table name to use
-export async function getTableName(baseTableName: string): Promise<string> {
-  const supabase = createClient()
-
-  // Try different table naming conventions
-  const possibleTableNames = [
-    `arena_pulse_${baseTableName}`, // Prefixed table in public schema
-    baseTableName, // Table directly in public schema
-    // Add other naming conventions if needed
-  ]
-
-  for (const tableName of possibleTableNames) {
-    const { count, error } = await supabase.from(tableName).select("*", { count: "exact", head: true })
-
-    if (!error) {
-      console.log(`Found table: ${tableName}`)
-      return tableName
-    }
-  }
-
-  // If no table is found, return the first option as default
-  // This will likely fail, but at least we tried all options
-  console.warn(`No valid table found for ${baseTableName}, using default`)
-  return possibleTableNames[0]
+/**
+ * List of all table names used in the application
+ * This makes it easy to reference tables consistently
+ */
+export const TableNames = {
+  GATES: getTableName("gates"),
+  CAMERAS: getTableName("cameras"),
+  EVENTS: getTableName("events"),
+  PREDICTIONS: getTableName("predictions"),
+  PARKING: getTableName("parking"),
 }

@@ -1,20 +1,17 @@
-import { AdminHeader } from "@/components/admin/admin-header"
+import type { Metadata } from "next"
 import { SetupDatabase } from "@/components/admin/setup-database"
 
-export default function AdminDashboard() {
-  return (
-    <div>
-      <AdminHeader
-        title="Admin Dashboard"
-        description="Manage and configure the Arena Pulse system"
-        showAddButton={false}
-      />
+export const metadata: Metadata = {
+  title: "Admin Dashboard | Arena Pulse",
+  description: "Arena Pulse Admin Dashboard",
+}
 
-      <div className="container mx-auto p-6">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <SetupDatabase />
-          {/* Other admin cards can go here */}
-        </div>
+export default function AdminPage() {
+  return (
+    <div className="container mx-auto py-10">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+      <div className="grid gap-6">
+        <SetupDatabase />
       </div>
     </div>
   )
