@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Thermometer, Users, AlertTriangle } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 interface Prediction {
   id: string
@@ -61,7 +62,7 @@ const predictions: Prediction[] = [
   },
 ]
 
-export function PredictiveInsights() {
+function PredictiveInsightsContent() {
   const getImpactBadge = (impact: Prediction["impact"]) => {
     switch (impact) {
       case "low":
@@ -167,5 +168,13 @@ export function PredictiveInsights() {
         </ScrollArea>
       </CardContent>
     </Card>
+  )
+}
+
+export function PredictiveInsights() {
+  return (
+    <ErrorBoundary>
+      <PredictiveInsightsContent />
+    </ErrorBoundary>
   )
 }

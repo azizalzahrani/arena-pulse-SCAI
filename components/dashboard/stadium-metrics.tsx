@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Users, ArrowRight, Bell, Clock, Thermometer, Calendar } from "lucide-react"
@@ -26,7 +27,7 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 
 // Update the StadiumMetrics component to include state for dialogs
-export function StadiumMetrics() {
+function StadiumMetricsContent() {
   const [openDialog, setOpenDialog] = useState<string | null>(null)
 
   return (
@@ -1258,5 +1259,13 @@ function MetricCard({
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  )
+}
+
+export function StadiumMetrics() {
+  return (
+    <ErrorBoundary>
+      <StadiumMetricsContent />
+    </ErrorBoundary>
   )
 }
