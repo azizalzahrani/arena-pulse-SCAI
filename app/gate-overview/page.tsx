@@ -1,48 +1,45 @@
 import type { Metadata } from "next"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { StadiumMetrics } from "@/components/dashboard/stadium-metrics"
-import { CrowdDensityHeatmap } from "@/components/dashboard/crowd-density-heatmap"
-import { GateStatus } from "@/components/dashboard/gate-status"
-import { CrowdFlowPrediction } from "@/components/dashboard/crowd-flow-prediction"
-import { AlertsPanel } from "@/components/dashboard/alerts-panel"
-import { PredictiveInsights } from "@/components/dashboard/predictive-insights"
+import { GateOverviewHeader } from "@/components/gate-overview/gate-overview-header"
+import { GateControlPanel } from "@/components/gate-overview/gate-control-panel"
+import { GateTrafficAnalytics } from "@/components/gate-overview/gate-traffic-analytics"
+import { GateAutomationSettings } from "@/components/gate-overview/gate-automation-settings"
+import { GateSecurityStatus } from "@/components/gate-overview/gate-security-status"
+import { StadiumBlueprintMap } from "@/components/gate-overview/stadium-blueprint-map"
 
 export const metadata: Metadata = {
-  title: "Arena Pulse - Dashboard",
-  description: "Real-time stadium management and monitoring system",
+  title: "Arena Pulse - Gate Overview",
+  description: "Gate management and control system for stadium operations",
 }
 
-export default function DashboardPage() {
+export default function GateOverviewPage() {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
         <main className="flex-1 overflow-auto">
-          <DashboardHeader />
+          <GateOverviewHeader />
 
           <div className="container mx-auto p-4 space-y-6">
-            <StadiumMetrics />
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
-                <CrowdDensityHeatmap />
+                <StadiumBlueprintMap />
               </div>
               <div className="lg:col-span-1">
-                <AlertsPanel />
+                <GateControlPanel />
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <GateStatus />
+                <GateAutomationSettings />
               </div>
               <div className="lg:col-span-1">
-                <CrowdFlowPrediction />
+                <GateTrafficAnalytics />
               </div>
               <div className="lg:col-span-1">
-                <PredictiveInsights />
+                <GateSecurityStatus />
               </div>
             </div>
           </div>

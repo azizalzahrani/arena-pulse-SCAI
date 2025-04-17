@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import Image from "next/image"
+
 import {
   Camera,
   Cog,
@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { usePathname } from "next/navigation"
+import { ArenaPulseLogo } from "./arena-pulse-logo"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -42,10 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader className="p-4">
-        <div className="flex items-center space-x-2">
-          <Image src="/logo-arena-pulse.png" alt="Arena Pulse Logo" width={40} height={40} className="h-10 w-10" />
-          <span className="text-xl font-bold">Arena Pulse</span>
-        </div>
+        <ArenaPulseLogo />
         <div className="relative mt-4">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input type="search" placeholder="Search..." className="w-full bg-background pl-8 text-sm" />
@@ -102,19 +100,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Event Schedule" isActive={pathname === "/event-schedule"} asChild>
-                  <a href="/event-schedule">
-                    <Calendar className="h-4 w-4" />
-                    <span>Event Schedule</span>
-                  </a>
+                <SidebarMenuButton tooltip="Event Schedule">
+                  <Calendar className="h-4 w-4" />
+                  <span>Event Schedule</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Parking Management" isActive={pathname === "/parking-management"} asChild>
-                  <a href="/parking-management">
-                    <Car className="h-4 w-4" />
-                    <span>Parking Management</span>
-                  </a>
+                <SidebarMenuButton tooltip="Parking Management">
+                  <Car className="h-4 w-4" />
+                  <span>Parking Management</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
