@@ -6,7 +6,6 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Users, Calendar, Thermometer } from "lucide-react"
-import { AIBadge } from "@/components/ui/ai-badge"
 
 export function AIPredictionsOverview() {
   const [activeTab, setActiveTab] = useState("crowd")
@@ -14,13 +13,8 @@ export function AIPredictionsOverview() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Prediction Capabilities</CardTitle>
-            <CardDescription>Explore the different types of predictions our AI system can generate</CardDescription>
-          </div>
-          <AIBadge />
-        </div>
+        <CardTitle>Prediction Capabilities</CardTitle>
+        <CardDescription>Explore the different types of predictions our AI system can generate</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="crowd" value={activeTab} onValueChange={setActiveTab}>

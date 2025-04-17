@@ -1,10 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Legend } from "recharts"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useState } from "react"
-import { AIBadge } from "@/components/ui/ai-badge"
 
 // Generate sample accuracy data
 const generateAccuracyData = (timeRange: "day" | "week" | "month") => {
@@ -63,9 +63,18 @@ export function PredictionAccuracy() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Prediction Accuracy</CardTitle>
-          <AIBadge />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <CardTitle>Prediction Accuracy</CardTitle>
+            <CardDescription>Historical accuracy of AI predictions over time</CardDescription>
+          </div>
+          <Tabs defaultValue="week" value={timeRange} onValueChange={(v) => setTimeRange(v as any)}>
+            <TabsList>
+              <TabsTrigger value="day">24h</TabsTrigger>
+              <TabsTrigger value="week">7d</TabsTrigger>
+              <TabsTrigger value="month">30d</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </CardHeader>
       <CardContent>

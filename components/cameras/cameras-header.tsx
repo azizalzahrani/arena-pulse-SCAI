@@ -32,9 +32,9 @@ export function CamerasHeader() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-bold">Video Surveillance / مراقبة الفيديو</h1>
-              <Badge className="bg-purple-600 text-white">
+              <Badge className="bg-green-500 text-white">
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
-                AI Powered
+                AI Active
               </Badge>
             </div>
             <p className="mt-2 text-white/80 max-w-2xl">

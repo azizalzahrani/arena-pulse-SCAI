@@ -1,49 +1,40 @@
-import type { Metadata } from "next"
-import { AppSidebar } from "@/components/app-sidebar"
 import { EventScheduleHeader } from "@/components/event-schedule/event-schedule-header"
-import { EventCalendar } from "@/components/event-schedule/event-calendar"
 import { UpcomingEvents } from "@/components/event-schedule/upcoming-events"
-import { EventDetails } from "@/components/event-schedule/event-details"
-import { EventAIRecommendations } from "@/components/event-schedule/event-ai-recommendations"
-import { EventStaffing } from "@/components/event-schedule/event-staffing"
-
-export const metadata: Metadata = {
-  title: "Arena Pulse - Event Schedule",
-  description: "Event scheduling and management for stadium operations",
-}
+import { EventCalendar } from "@/components/event-schedule/event-calendar"
+import { EventAIInsights } from "@/components/event-schedule/event-ai-insights"
+import { EventDetailsPanel } from "@/components/event-schedule/event-details-panel"
+import { EventCapacityPlanning } from "@/components/event-schedule/event-capacity-planning"
 
 export default function EventSchedulePage() {
   return (
-    <div className="flex min-h-screen">
-      <AppSidebar />
-      <div className="flex-1 md:ml-[280px]">
-        <main className="flex-1 overflow-auto">
+    <main className="flex-1 overflow-auto">
+      <div className="bg-gradient-to-r from-arena-purple/90 to-arena-blue/90 text-white">
+        <div className="container mx-auto px-4 py-8">
           <EventScheduleHeader />
-
-          <div className="container mx-auto px-4 py-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-              <div className="lg:col-span-2">
-                <EventCalendar />
-              </div>
-              <div>
-                <UpcomingEvents />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-              <div className="lg:col-span-2">
-                <EventDetails />
-              </div>
-              <div>
-                <EventAIRecommendations />
-                <div className="mt-6">
-                  <EventStaffing />
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
+        </div>
       </div>
-    </div>
+
+      <div className="container mx-auto p-4 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <UpcomingEvents />
+          </div>
+          <div className="lg:col-span-1">
+            <EventAIInsights />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <EventCalendar />
+          </div>
+          <div className="lg:col-span-1">
+            <EventDetailsPanel />
+          </div>
+        </div>
+
+        <EventCapacityPlanning />
+      </div>
+    </main>
   )
 }

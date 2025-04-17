@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Thermometer, Users, AlertTriangle } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { AIBadge } from "@/components/ui/ai-badge"
 
 interface Prediction {
   id: string
@@ -77,10 +76,7 @@ export function PredictiveInsights() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Predictive Insights</CardTitle>
-          <AIBadge />
-        </div>
+        <CardTitle>Predictive Insights</CardTitle>
         <p className="text-sm text-muted-foreground">AI-powered predictions for upcoming events</p>
       </CardHeader>
       <CardContent className="p-0">
