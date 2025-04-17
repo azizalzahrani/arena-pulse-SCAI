@@ -2,20 +2,7 @@
 
 import type React from "react"
 
-import {
-  Camera,
-  Cog,
-  Home,
-  LogOut,
-  Moon,
-  Search,
-  Sun,
-  Users,
-  Calendar,
-  ChurchIcon as Mosque,
-  Car,
-  Sparkles,
-} from "lucide-react"
+import { Camera, Cog, Home, LogOut, Moon, Search, Sun, Users, Calendar, Car, Sparkles } from "lucide-react"
 import { useTheme } from "next-themes"
 import { usePathname } from "next/navigation"
 import { ArenaPulseLogo } from "./arena-pulse-logo"
@@ -93,12 +80,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel>Stadium Services</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Prayer Facilities">
-                  <Mosque className="h-4 w-4" />
-                  <span>Prayer Facilities</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Event Schedule">
                   <Calendar className="h-4 w-4" />
