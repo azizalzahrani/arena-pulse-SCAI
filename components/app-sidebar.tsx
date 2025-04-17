@@ -106,9 +106,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Parking Management">
-                  <Car className="h-4 w-4" />
-                  <span>Parking Management</span>
+                <SidebarMenuButton tooltip="Parking Management" isActive={pathname === "/parking-management"} asChild>
+                  <a href="/parking-management">
+                    <Car className="h-4 w-4" />
+                    <span>Parking Management</span>
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
