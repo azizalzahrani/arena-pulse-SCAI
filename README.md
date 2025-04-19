@@ -155,6 +155,7 @@ To add a new language:
 ## 📁 Project Structure
 
 \`\`\`
+
 arena-pulse/
 ├── app/                  # Next.js App Router pages
 │   ├── ai-predictions/   # AI predictions page
@@ -172,7 +173,8 @@ arena-pulse/
 ├── contexts/             # React contexts
 │   └── language-context.tsx # Internationalization context
 ├── public/               # Static assets
-└── ...
+└── 
+
 \`\`\`
 
 ## 🤝 Contributing
