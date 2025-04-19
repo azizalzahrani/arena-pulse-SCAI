@@ -174,6 +174,7 @@ arena-pulse/
 │   └── language-context.tsx # Internationalization context
 ├── public/               # Static assets
 └── ...
+
 \`\`\`
 
 ## 🤝 Contributing
