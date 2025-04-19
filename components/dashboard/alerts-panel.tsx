@@ -8,6 +8,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AlertCircle, Clock } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 interface Alert {
   id: string
   title: string
@@ -67,6 +70,7 @@ const alerts: Alert[] = [
 ]
 
 export function AlertsPanel() {
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState("all")
   const [alertsList, setAlertsList] = useState(alerts)
 
@@ -123,13 +127,13 @@ export function AlertsPanel() {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle>Alerts</CardTitle>
+            <CardTitle>{t("alerts")}</CardTitle>
             <Badge className="bg-red-500">{alertsList.filter((a) => a.status === "new").length} New</Badge>
           </div>
           <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-3 h-8">
               <TabsTrigger value="all" className="text-xs">
-                All
+                {t("all")}
               </TabsTrigger>
               <TabsTrigger value="security" className="text-xs">
                 Security
@@ -140,7 +144,7 @@ export function AlertsPanel() {
             </TabsList>
           </Tabs>
         </div>
-        <p className="text-sm text-muted-foreground">Security and system notifications</p>
+        <p className="text-sm text-muted-foreground">{t("security-and-system-notifications")}</p>
       </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[400px]">

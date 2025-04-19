@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { Clock, Thermometer, Users, AlertTriangle } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 interface Prediction {
   id: string
   title: string
@@ -62,6 +65,8 @@ const predictions: Prediction[] = [
 ]
 
 export function PredictiveInsights() {
+  const { t } = useLanguage()
+
   const getImpactBadge = (impact: Prediction["impact"]) => {
     switch (impact) {
       case "low":
@@ -76,8 +81,8 @@ export function PredictiveInsights() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Predictive Insights</CardTitle>
-        <p className="text-sm text-muted-foreground">AI-powered predictions for upcoming events</p>
+        <CardTitle>{t("predictive-insights")}</CardTitle>
+        <p className="text-sm text-muted-foreground">{t("ai-powered-predictions")}</p>
       </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[400px]">
@@ -88,10 +93,12 @@ export function PredictiveInsights() {
                   <div className="mt-0.5">{prediction.icon}</div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-medium">{prediction.title}</h4>
+                      <h4 className="font-medium">{t(prediction.title.toLowerCase().replace(/ /g, "-"))}</h4>
                       {getImpactBadge(prediction.impact)}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">{prediction.description}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t(prediction.description.toLowerCase().replace(/ /g, "-"))}
+                    </p>
 
                     <div className="flex items-center gap-2 mt-2 text-xs">
                       <span className="flex items-center gap-1 text-muted-foreground">

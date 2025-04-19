@@ -6,7 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RefreshCw, Info } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
+// Import the language context and switcher at the top
+import { useLanguage } from "@/contexts/language-context"
+import { LanguageSwitcher } from "@/components/language-switcher"
+
+// Update the DashboardHeader component to use translations
 export function DashboardHeader() {
+  const { t } = useLanguage()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedStadium, setSelectedStadium] = useState("king-fahd")
 
@@ -24,9 +30,9 @@ export function DashboardHeader() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">لوحة التحكم / Mission Control</h1>
+              <h1 className="text-2xl font-bold">{t("mission-control")}</h1>
             </div>
-            <p className="mt-2 text-white/80 max-w-2xl">Real-time stadium overview and management dashboard</p>
+            <p className="mt-2 text-white/80 max-w-2xl">{t("dashboard-description")}</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -41,6 +47,8 @@ export function DashboardHeader() {
               </SelectContent>
             </Select>
 
+            <LanguageSwitcher />
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -52,11 +60,11 @@ export function DashboardHeader() {
                     disabled={isRefreshing}
                   >
                     <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
-                    <span className="sr-only">Refresh data</span>
+                    <span className="sr-only">{t("refresh")}</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Refresh dashboard data</p>
+                  <p>{t("refresh")}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -70,11 +78,13 @@ export function DashboardHeader() {
                     className="bg-white/10 border-white/20 text-white hover:bg-white/20"
                   >
                     <Info className="h-4 w-4" />
-                    <span className="sr-only">Dashboard information</span>
+                    <span className="sr-only">{t("dashboard")}</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Dashboard last updated: 2 minutes ago</p>
+                  <p>
+                    {t("last-updated")}: 2 {t("min")} {t("ago")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

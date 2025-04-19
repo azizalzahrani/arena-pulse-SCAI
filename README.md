@@ -87,38 +87,67 @@ Arena Pulse integrates advanced AI throughout the platform:
 
 - Node.js 18.0+
 - npm or yarn
+- Git
 
 ### Installation
 
-1. Clone the repository
-\`\`\`bash
-git clone https://github.com/your-username/arena-pulse.git
-cd arena-pulse
-\`\`\`
+1. **Clone the repository**
+   \`\`\`bash
+   git clone https://github.com/your-username/arena-pulse.git
+   cd arena-pulse
+   \`\`\`
 
-2. Install dependencies
-\`\`\`bash
-npm install
-# or
-yarn install
-\`\`\`
+2. **Install dependencies**
+   \`\`\`bash
+   npm install
+   # or
+   yarn install
+   \`\`\`
 
-3. Run the development server
-\`\`\`bash
-npm run dev
-# or
-yarn dev
-\`\`\`
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory:
+   \`\`\`
+   NEXT_PUBLIC_API_URL=your_api_url
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   \`\`\`
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. **Run the development server**
+   \`\`\`bash
+   npm run dev
+   # or
+   yarn dev
+   \`\`\`
 
-### Environment Variables
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the application
 
-Create a `.env.local` file in the root directory with the following variables:
+### Build for Production
 
-\`\`\`
-NEXT_PUBLIC_API_URL=your_api_url
-\`\`\`
+1. **Create a production build**
+   \`\`\`bash
+   npm run build
+   # or
+   yarn build
+   \`\`\`
+
+2. **Start the production server**
+   \`\`\`bash
+   npm run start
+   # or
+   yarn start
+   \`\`\`
+
+### Deployment
+
+The application is optimized for deployment on Vercel:
+
+1. **Push your code to GitHub**
+2. **Import your repository in Vercel**
+3. **Configure environment variables**
+4. **Deploy**
+
+You can also deploy to other platforms that support Next.js applications.
 
 ## 🌍 Internationalization
 
@@ -140,41 +169,22 @@ To add a new language:
 
 <div align="center">
   <img src="/public/screenshots/dashboard.png" alt="Dashboard" width="80%" />
-  <p><em>Main Dashboard with Real-time Analytics</em></p>
+  <p><em>Main Dashboard with Real-time Analytics and Crowd Density Heatmap</em></p>
   
-  <img src="/public/screenshots/crowd-density.png" alt="Crowd Density" width="80%" />
-  <p><em>Crowd Density Heatmap</em></p>
+  <img src="/public/screenshots/stadium-blueprint.png" alt="Stadium Blueprint" width="80%" />
+  <p><em>Interactive Stadium Blueprint with Gate Control Panel</em></p>
   
-  <img src="/public/screenshots/camera-feeds.png" alt="Camera Feeds" width="80%" />
-  <p><em>AI-Powered Camera Surveillance</em></p>
+  <img src="/public/screenshots/ai-predictions.png" alt="AI Predictions" width="80%" />
+  <p><em>AI Prediction Models and Accuracy Analytics</em></p>
   
-  <img src="/public/screenshots/parking.png" alt="Parking Management" width="80%" />
-  <p><em>Parking Management System</em></p>
+  <img src="/public/screenshots/parking-management.png" alt="Parking Management" width="80%" />
+  <p><em>Stadium Parking Map and Capacity Overview</em></p>
 </div>
 
 ## 📁 Project Structure
 
 \`\`\`
-
-arena-pulse/
-├── app/                  # Next.js App Router pages
-│   ├── ai-predictions/   # AI predictions page
-│   ├── cameras/          # Camera surveillance page
-│   ├── gate-overview/    # Gate management page
-│   ├── parking-management/ # Parking management page
-│   └── ...
-├── components/           # React components
-│   ├── ai-predictions/   # AI prediction components
-│   ├── cameras/          # Camera components
-│   ├── dashboard/        # Dashboard components
-│   ├── gate-overview/    # Gate management components
-│   ├── parking-management/ # Parking components
-│   └── ...
-├── contexts/             # React contexts
-│   └── language-context.tsx # Internationalization context
-├── public/               # Static assets
-└── ...
-
+arena-pulse/ ├── app/ # Next.js App Router pages │ ├── ai-predictions/ # AI predictions page │ ├── cameras/ # Camera surveillance page │ ├── gate-overview/ # Gate management page │ ├── parking-management/ # Parking management page │ └── ... ├── components/ # React components │ ├── ai-predictions/ # AI prediction components │ ├── cameras/ # Camera components │ ├── dashboard/ # Dashboard components │ ├── gate-overview/ # Gate management components │ ├── parking-management/ # Parking components │ └── ... ├── contexts/ # React contexts │ └── language-context.tsx # Internationalization context ├── public/ # Static assets └── ...
 \`\`\`
 
 ## 🤝 Contributing

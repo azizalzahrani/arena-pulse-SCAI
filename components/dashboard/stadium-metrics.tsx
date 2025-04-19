@@ -25,82 +25,85 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 
-// Update the StadiumMetrics component to include state for dialogs
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 export function StadiumMetrics() {
+  const { t } = useLanguage()
   const [openDialog, setOpenDialog] = useState<string | null>(null)
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
         <MetricCard
-          title="Total Attendance"
+          title={t("total-attendance")}
           value="32,458"
           icon={<Users className="h-5 w-5" />}
-          description="Current stadium capacity (81%)"
+          description={t("current-stadium-capacity") + " (81%)"}
           change={{ value: "+12%", direction: "up" }}
-          tooltip="Total number of attendees currently in the stadium"
+          tooltip={t("total-attendance")}
           onMoreClick={() => setOpenDialog("attendance")}
         />
 
         <MetricCard
-          title="Entry Rate"
+          title={t("entry-rate")}
           value="425/hr"
           icon={<ArrowRight className="h-5 w-5" />}
-          description="People entering per hour"
+          description={t("people-entering-per-hour")}
           change={{ value: "+8%", direction: "up" }}
-          tooltip="Rate of people entering the stadium per hour"
+          tooltip={t("entry-rate")}
           onMoreClick={() => setOpenDialog("entry")}
         />
 
         <MetricCard
-          title="Active Alerts"
+          title={t("active-alerts")}
           value="3"
           icon={<Bell className="h-5 w-5" />}
-          description="2 security, 1 medical"
+          description={`2 ${t("security-medical")}`}
           change={{ value: "-2", direction: "down" }}
-          tooltip="Current active alerts requiring attention"
+          tooltip={t("active-alerts")}
           alertStyle={true}
           onMoreClick={() => setOpenDialog("alerts")}
         />
 
         <MetricCard
-          title="Match Time"
+          title={t("match-time")}
           value="65:12"
           icon={<Clock className="h-5 w-5" />}
           description="Al Hilal vs Al Nassr"
-          tooltip="Current match time"
+          tooltip={t("match-time")}
           onMoreClick={() => setOpenDialog("match")}
         />
 
         <MetricCard
-          title="Weather"
+          title={t("weather")}
           value="38°C"
           icon={<Thermometer className="h-5 w-5" />}
-          description="Feels like 41°C • Riyadh"
+          description={t("feels-like") + " 41°C • Riyadh"}
           extraContent={
             <div className="mt-2 grid grid-cols-3 gap-2 text-xs">
               <div className="flex flex-col items-center">
-                <span>Humidity</span>
+                <span>{t("humidity")}</span>
                 <span className="font-medium">12%</span>
               </div>
               <div className="flex flex-col items-center">
-                <span>Wind</span>
+                <span>{t("wind")}</span>
                 <span className="font-medium">15 km/h</span>
               </div>
               <div className="flex flex-col items-center">
-                <span>UV</span>
+                <span>{t("uv")}</span>
                 <span className="font-medium">9</span>
               </div>
             </div>
           }
-          tooltip="Current weather conditions at the stadium"
+          tooltip={t("weather")}
         />
 
         <MetricCard
-          title="Prayer Times"
-          value="Asr"
+          title={t("prayer-times")}
+          value={t("asr")}
           icon={<Calendar className="h-5 w-5" />}
-          description="01:23 remaining"
+          description={`01:23 ${t("remaining")}`}
           extraContent={
             <div className="mt-2 grid grid-cols-4 gap-1 text-xs">
               <div className="flex flex-col items-center">
@@ -108,7 +111,7 @@ export function StadiumMetrics() {
                 <span className="font-medium">11:45</span>
               </div>
               <div className="flex flex-col items-center">
-                <span>Asr</span>
+                <span>{t("asr")}</span>
                 <span className="font-medium">15:12</span>
               </div>
               <div className="flex flex-col items-center">
@@ -121,7 +124,7 @@ export function StadiumMetrics() {
               </div>
             </div>
           }
-          tooltip="Prayer times for today"
+          tooltip={t("prayer-times")}
         />
       </div>
 
@@ -131,72 +134,72 @@ export function StadiumMetrics() {
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
               <Users className="h-5 w-5 text-arena-purple" />
-              Attendance Insights
+              {t("attendance-insights")}
             </DialogTitle>
-            <DialogDescription>Detailed attendance statistics and capacity management</DialogDescription>
+            <DialogDescription>{t("detailed-attendance-statistics")}</DialogDescription>
           </DialogHeader>
 
           <Tabs defaultValue="overview" className="mt-4">
             <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="sections">Sections</TabsTrigger>
-              <TabsTrigger value="controls">Controls</TabsTrigger>
+              <TabsTrigger value="overview">{t("overview")}</TabsTrigger>
+              <TabsTrigger value="sections">{t("sections")}</TabsTrigger>
+              <TabsTrigger value="controls">{t("controls")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Total Attendance</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("total-attendance")}</h3>
                   <p className="text-2xl font-bold mt-1">32,458</p>
-                  <p className="text-xs text-green-600 mt-1">+12% from average</p>
+                  <p className="text-xs text-green-600 mt-1">+12% {t("from-average")}</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Capacity</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("capacity")}</h3>
                   <p className="text-2xl font-bold mt-1">81%</p>
-                  <p className="text-xs text-muted-foreground mt-1">40,000 maximum</p>
+                  <p className="text-xs text-muted-foreground mt-1">40,000 {t("maximum")}</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Remaining</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("remaining")}</h3>
                   <p className="text-2xl font-bold mt-1">7,542</p>
-                  <p className="text-xs text-muted-foreground mt-1">seats available</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("seats-available")}</p>
                 </div>
               </div>
 
               <div className="bg-muted/30 h-[200px] rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Attendance trend chart would appear here</p>
+                <p className="text-muted-foreground">{t("attendance-trend-chart")}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Demographics</h3>
+                  <h3 className="font-medium">{t("demographics")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Adults</span>
+                      <span>{t("adults")}</span>
                       <span>24,343 (75%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Children</span>
+                      <span>{t("children")}</span>
                       <span>5,192 (16%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>VIPs</span>
+                      <span>{t("vips")}</span>
                       <span>2,923 (9%)</span>
                     </div>
                   </div>
                 </div>
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Entry Points</h3>
+                  <h3 className="font-medium">{t("entry-points")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>North Gates</span>
+                      <span>{t("north-gates")}</span>
                       <span>10,547 (32%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>South Gates</span>
+                      <span>{t("south-gates")}</span>
                       <span>8,762 (27%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>East/West Gates</span>
+                      <span>{t("east-west-gates")}</span>
                       <span>13,149 (41%)</span>
                     </div>
                   </div>
@@ -206,16 +209,16 @@ export function StadiumMetrics() {
 
             <TabsContent value="sections" className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Section Capacity</h3>
+                <h3 className="font-medium">{t("section-capacity")}</h3>
                 <Select defaultValue="all">
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter sections" />
+                    <SelectValue placeholder={t("filter-sections")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Sections</SelectItem>
-                    <SelectItem value="vip">VIP Sections</SelectItem>
-                    <SelectItem value="general">General Admission</SelectItem>
-                    <SelectItem value="family">Family Sections</SelectItem>
+                    <SelectItem value="all">{t("all-sections")}</SelectItem>
+                    <SelectItem value="vip">{t("vip-sections")}</SelectItem>
+                    <SelectItem value="general">{t("general-admission")}</SelectItem>
+                    <SelectItem value="family">{t("family-sections")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -224,15 +227,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">North Stand</h4>
-                      <p className="text-xs text-muted-foreground">General Admission</p>
+                      <h4 className="font-medium">{t("north-stand")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("general-admission")}</p>
                     </div>
-                    <Badge className="bg-yellow-500">85% Full</Badge>
+                    <Badge className="bg-yellow-500">85% {t("full")}</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>8,500 / 10,000</span>
-                      <span>1,500 remaining</span>
+                      <span>1,500 {t("remaining")}</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-yellow-500 rounded-full" style={{ width: "85%" }} />
@@ -243,15 +246,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">South Stand</h4>
-                      <p className="text-xs text-muted-foreground">Family Section</p>
+                      <h4 className="font-medium">{t("south-stand")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("family-section")}</p>
                     </div>
-                    <Badge className="bg-green-500">72% Full</Badge>
+                    <Badge className="bg-green-500">72% {t("full")}</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>7,200 / 10,000</span>
-                      <span>2,800 remaining</span>
+                      <span>2,800 {t("remaining")}</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: "72%" }} />
@@ -262,15 +265,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">East Stand</h4>
-                      <p className="text-xs text-muted-foreground">General Admission</p>
+                      <h4 className="font-medium">{t("east-stand")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("general-admission")}</p>
                     </div>
-                    <Badge className="bg-red-500">93% Full</Badge>
+                    <Badge className="bg-red-500">93% {t("full")}</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>9,300 / 10,000</span>
-                      <span>700 remaining</span>
+                      <span>700 {t("remaining")}</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-red-500 rounded-full" style={{ width: "93%" }} />
@@ -281,15 +284,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">West Stand</h4>
-                      <p className="text-xs text-muted-foreground">VIP Section</p>
+                      <h4 className="font-medium">{t("west-stand")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("vip-section")}</p>
                     </div>
-                    <Badge className="bg-green-500">75% Full</Badge>
+                    <Badge className="bg-green-500">75% {t("full")}</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>7,500 / 10,000</span>
-                      <span>2,500 remaining</span>
+                      <span>2,500 {t("remaining")}</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: "75%" }} />
@@ -301,59 +304,59 @@ export function StadiumMetrics() {
 
             <TabsContent value="controls" className="space-y-4">
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Capacity Management</h3>
-                <p className="text-sm text-muted-foreground mt-1">Adjust maximum capacity for safety and comfort</p>
+                <h3 className="font-medium">{t("capacity-management")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("adjust-maximum-capacity")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <Label>Maximum Capacity</Label>
+                      <Label>{t("maximum-capacity")}</Label>
                       <span className="text-sm font-medium">40,000</span>
                     </div>
                     <Slider defaultValue={[100]} max={100} step={5} />
-                    <p className="text-xs text-muted-foreground">100% of designed capacity</p>
+                    <p className="text-xs text-muted-foreground">100% {t("of-designed-capacity")}</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Capacity Alert Threshold</Label>
+                    <Label>{t("capacity-alert-threshold")}</Label>
                     <div className="flex items-center gap-2">
                       <Slider defaultValue={[90]} max={100} step={5} className="flex-1" />
                       <span className="text-sm font-medium min-w-[40px] text-right">90%</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">Alert when capacity exceeds this threshold</p>
+                    <p className="text-xs text-muted-foreground">{t("alert-when-capacity-exceeds")}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <Button variant="outline">
                       <Settings className="h-4 w-4 mr-2" />
-                      Advanced Settings
+                      {t("advanced-settings")}
                     </Button>
-                    <Button>Apply Changes</Button>
+                    <Button>{t("apply-changes")}</Button>
                   </div>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Entry Control</h3>
-                <p className="text-sm text-muted-foreground mt-1">Manage entry points and flow control</p>
+                <h3 className="font-medium">{t("entry-control")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("manage-entry-points")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Automatic Flow Control</Label>
+                    <Label className="cursor-pointer">{t("automatic-flow-control")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">VIP Priority Access</Label>
+                    <Label className="cursor-pointer">{t("vip-priority-access")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Family Section Quota</Label>
+                    <Label className="cursor-pointer">{t("family-section-quota")}</Label>
                     <Switch defaultChecked />
                   </div>
 
-                  <Button className="w-full">Update Entry Controls</Button>
+                  <Button className="w-full">{t("update-entry-controls")}</Button>
                 </div>
               </div>
             </TabsContent>
@@ -367,72 +370,72 @@ export function StadiumMetrics() {
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
               <ArrowRight className="h-5 w-5 text-arena-blue" />
-              Entry Rate Analysis
+              {t("entry-rate-analysis")}
             </DialogTitle>
-            <DialogDescription>Real-time entry flow statistics and gate management</DialogDescription>
+            <DialogDescription>{t("real-time-entry-flow")}</DialogDescription>
           </DialogHeader>
 
           <Tabs defaultValue="realtime" className="mt-4">
             <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="realtime">Real-time</TabsTrigger>
-              <TabsTrigger value="gates">Gates</TabsTrigger>
-              <TabsTrigger value="controls">Flow Control</TabsTrigger>
+              <TabsTrigger value="realtime">{t("real-time")}</TabsTrigger>
+              <TabsTrigger value="gates">{t("gates")}</TabsTrigger>
+              <TabsTrigger value="controls">{t("flow-control")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="realtime" className="space-y-4">
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Current Rate</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("current-rate")}</h3>
                   <p className="text-2xl font-bold mt-1">425/hr</p>
-                  <p className="text-xs text-green-600 mt-1">+8% from average</p>
+                  <p className="text-xs text-green-600 mt-1">+8% {t("from-average")}</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Peak Rate</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("peak-rate")}</h3>
                   <p className="text-2xl font-bold mt-1">1,250/hr</p>
                   <p className="text-xs text-muted-foreground mt-1">12:30 - 13:30</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Wait Time</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("wait-time")}</h3>
                   <p className="text-2xl font-bold mt-1">4.5 min</p>
-                  <p className="text-xs text-green-600 mt-1">-2 min from average</p>
+                  <p className="text-xs text-green-600 mt-1">-2 min {t("from-average")}</p>
                 </div>
               </div>
 
               <div className="bg-muted/30 h-[200px] rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Entry rate trend chart would appear here</p>
+                <p className="text-muted-foreground">{t("entry-rate-trend-chart")}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Entry Breakdown</h3>
+                  <h3 className="font-medium">{t("entry-breakdown")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>General Admission</span>
+                      <span>{t("general-admission")}</span>
                       <span>310/hr (73%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Family Section</span>
+                      <span>{t("family-section")}</span>
                       <span>85/hr (20%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>VIP Access</span>
+                      <span>{t("vip-access")}</span>
                       <span>30/hr (7%)</span>
                     </div>
                   </div>
                 </div>
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Entry Methods</h3>
+                  <h3 className="font-medium">{t("entry-methods")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Mobile Tickets</span>
+                      <span>{t("mobile-tickets")}</span>
                       <span>340/hr (80%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Physical Tickets</span>
+                      <span>{t("physical-tickets")}</span>
                       <span>55/hr (13%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Season Passes</span>
+                      <span>{t("season-passes")}</span>
                       <span>30/hr (7%)</span>
                     </div>
                   </div>
@@ -442,17 +445,17 @@ export function StadiumMetrics() {
 
             <TabsContent value="gates" className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Gate Performance</h3>
+                <h3 className="font-medium">{t("gate-performance")}</h3>
                 <Select defaultValue="all">
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filter gates" />
+                    <SelectValue placeholder={t("filter-gates")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Gates</SelectItem>
-                    <SelectItem value="north">North Gates</SelectItem>
-                    <SelectItem value="south">South Gates</SelectItem>
-                    <SelectItem value="east">East Gates</SelectItem>
-                    <SelectItem value="west">West Gates</SelectItem>
+                    <SelectItem value="all">{t("all-gates")}</SelectItem>
+                    <SelectItem value="north">{t("north-gates")}</SelectItem>
+                    <SelectItem value="south">{t("south-gates")}</SelectItem>
+                    <SelectItem value="east">{t("east-gates")}</SelectItem>
+                    <SelectItem value="west">{t("west-gates")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -461,15 +464,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">North Main Gate</h4>
-                      <p className="text-xs text-muted-foreground">6 active lanes</p>
+                      <h4 className="font-medium">{t("north-main-gate")}</h4>
+                      <p className="text-xs text-muted-foreground">6 {t("active-lanes")}</p>
                     </div>
                     <Badge className="bg-green-500">120/hr</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
-                      <span>Efficiency: 95%</span>
-                      <span>Wait time: 3 min</span>
+                      <span>{t("efficiency")}: 95%</span>
+                      <span>{t("wait-time")}: 3 min</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: "95%" }} />
@@ -480,15 +483,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">South Main Gate</h4>
-                      <p className="text-xs text-muted-foreground">8 active lanes</p>
+                      <h4 className="font-medium">{t("south-main-gate")}</h4>
+                      <p className="text-xs text-muted-foreground">8 {t("active-lanes")}</p>
                     </div>
                     <Badge className="bg-green-500">160/hr</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
-                      <span>Efficiency: 90%</span>
-                      <span>Wait time: 5 min</span>
+                      <span>{t("efficiency")}: 90%</span>
+                      <span>{t("wait-time")}: 5 min</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: "90%" }} />
@@ -499,15 +502,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">East Main Gate</h4>
-                      <p className="text-xs text-muted-foreground">5 active lanes</p>
+                      <h4 className="font-medium">{t("east-main-gate")}</h4>
+                      <p className="text-xs text-muted-foreground">5 {t("active-lanes")}</p>
                     </div>
                     <Badge className="bg-yellow-500">85/hr</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
-                      <span>Efficiency: 75%</span>
-                      <span>Wait time: 8 min</span>
+                      <span>{t("efficiency")}: 75%</span>
+                      <span>{t("wait-time")}: 8 min</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-yellow-500 rounded-full" style={{ width: "75%" }} />
@@ -518,15 +521,15 @@ export function StadiumMetrics() {
                 <div className="border rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-medium">VIP Entrance</h4>
-                      <p className="text-xs text-muted-foreground">2 active lanes</p>
+                      <h4 className="font-medium">{t("vip-entrance")}</h4>
+                      <p className="text-xs text-muted-foreground">2 {t("active-lanes")}</p>
                     </div>
                     <Badge className="bg-green-500">30/hr</Badge>
                   </div>
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
-                      <span>Efficiency: 98%</span>
-                      <span>Wait time: 1 min</span>
+                      <span>{t("efficiency")}: 98%</span>
+                      <span>{t("wait-time")}: 1 min</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div className="h-full bg-green-500 rounded-full" style={{ width: "98%" }} />
@@ -538,74 +541,74 @@ export function StadiumMetrics() {
 
             <TabsContent value="controls" className="space-y-4">
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Flow Management</h3>
-                <p className="text-sm text-muted-foreground mt-1">Adjust entry flow and gate operations</p>
+                <h3 className="font-medium">{t("flow-management")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("adjust-entry-flow")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <Label>Active Lanes</Label>
+                      <Label>{t("active-lanes")}</Label>
                       <span className="text-sm font-medium">21/30</span>
                     </div>
                     <Slider defaultValue={[70]} max={100} step={5} />
-                    <p className="text-xs text-muted-foreground">70% of total capacity</p>
+                    <p className="text-xs text-muted-foreground">70% {t("of-total-capacity")}</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Staff Allocation</Label>
+                    <Label>{t("staff-allocation")}</Label>
                     <Select defaultValue="balanced">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select allocation strategy" />
+                        <SelectValue placeholder={t("select-allocation-strategy")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="balanced">Balanced (Default)</SelectItem>
-                        <SelectItem value="north">North Priority</SelectItem>
-                        <SelectItem value="south">South Priority</SelectItem>
-                        <SelectItem value="dynamic">Dynamic AI Allocation</SelectItem>
+                        <SelectItem value="balanced">{t("balanced-default")}</SelectItem>
+                        <SelectItem value="north">{t("north-priority")}</SelectItem>
+                        <SelectItem value="south">{t("south-priority")}</SelectItem>
+                        <SelectItem value="dynamic">{t("dynamic-ai-allocation")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">AI Flow Optimization</Label>
+                    <Label className="cursor-pointer">{t("ai-flow-optimization")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Dynamic Lane Opening</Label>
+                    <Label className="cursor-pointer">{t("dynamic-lane-opening")}</Label>
                     <Switch defaultChecked />
                   </div>
 
-                  <Button className="w-full">Update Flow Controls</Button>
+                  <Button className="w-full">{t("update-flow-controls")}</Button>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Wait Time Management</h3>
-                <p className="text-sm text-muted-foreground mt-1">Set thresholds and alerts for wait times</p>
+                <h3 className="font-medium">{t("wait-time-management")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("set-thresholds-and-alerts")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <Label>Wait Time Alert Threshold</Label>
-                      <span className="text-sm font-medium">10 minutes</span>
+                      <Label>{t("wait-time-alert-threshold")}</Label>
+                      <span className="text-sm font-medium">10 {t("minutes")}</span>
                     </div>
                     <Slider defaultValue={[10]} max={30} step={1} />
-                    <p className="text-xs text-muted-foreground">Alert when wait time exceeds threshold</p>
+                    <p className="text-xs text-muted-foreground">{t("alert-when-wait-time-exceeds")}</p>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">SMS Wait Time Alerts</Label>
+                    <Label className="cursor-pointer">{t("sms-wait-time-alerts")}</Label>
                     <Switch />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">App Notifications</Label>
+                    <Label className="cursor-pointer">{t("app-notifications")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <Button variant="outline" className="w-full">
-                    Test Alert System
+                    {t("test-alert-system")}
                   </Button>
                 </div>
               </div>
@@ -620,29 +623,29 @@ export function StadiumMetrics() {
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
               <Bell className="h-5 w-5 text-red-500" />
-              Active Alerts Management
+              {t("active-alerts-management")}
             </DialogTitle>
-            <DialogDescription>Monitor and respond to security and operational alerts</DialogDescription>
+            <DialogDescription>{t("monitor-and-respond")}</DialogDescription>
           </DialogHeader>
 
           <Tabs defaultValue="active" className="mt-4">
             <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="active">Active Alerts (3)</TabsTrigger>
-              <TabsTrigger value="resolved">Resolved</TabsTrigger>
-              <TabsTrigger value="settings">Alert Settings</TabsTrigger>
+              <TabsTrigger value="active">{t("active-alerts")} (3)</TabsTrigger>
+              <TabsTrigger value="resolved">{t("resolved")}</TabsTrigger>
+              <TabsTrigger value="settings">{t("alert-settings")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="active" className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Current Alerts</h3>
+                <h3 className="font-medium">{t("current-alerts")}</h3>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" className="h-8">
                     <Filter className="h-3.5 w-3.5 mr-1" />
-                    Filter
+                    {t("filter")}
                   </Button>
                   <Button variant="destructive" size="sm" className="h-8">
                     <Bell className="h-3.5 w-3.5 mr-1" />
-                    Test Alert
+                    {t("test-alert")}
                   </Button>
                 </div>
               </div>
@@ -655,28 +658,28 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Unauthorized access detected at Gate 12</h4>
-                        <Badge className="bg-red-500">High Priority</Badge>
+                        <h4 className="font-medium">{t("unauthorized-access")}</h4>
+                        <Badge className="bg-red-500">{t("high-priority")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Security personnel dispatched. Investigating potential breach.
-                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("security-personnel-dispatched")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Reported 5 minutes ago</span>
-                        <span className="text-red-500">• Requires immediate attention</span>
+                        <span>
+                          {t("reported")} 5 {t("minutes-ago")}
+                        </span>
+                        <span className="text-red-500">• {t("requires-immediate-attention")}</span>
                       </div>
 
                       <div className="flex items-center gap-2 mt-3">
                         <Button size="sm" variant="outline" className="h-8">
-                          View Cameras
+                          {t("view-cameras")}
                         </Button>
                         <Button size="sm" className="h-8">
-                          Respond
+                          {t("respond")}
                         </Button>
                         <Button size="sm" variant="destructive" className="h-8">
-                          Escalate
+                          {t("escalate")}
                         </Button>
                       </div>
                     </div>
@@ -690,22 +693,24 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Medical assistance requested</h4>
-                        <Badge className="bg-yellow-500">Medium Priority</Badge>
+                        <h4 className="font-medium">{t("medical-assistance-requested")}</h4>
+                        <Badge className="bg-yellow-500">{t("medium-priority")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">Section B, Row 23. Medical team en route.</p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("section-b-row-23")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Reported 12 minutes ago</span>
+                        <span>
+                          {t("reported")} 12 {t("minutes-ago")}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 mt-3">
                         <Button size="sm" variant="outline" className="h-8">
-                          View Location
+                          {t("view-location")}
                         </Button>
                         <Button size="sm" className="h-8">
-                          Check Status
+                          {t("check-status")}
                         </Button>
                       </div>
                     </div>
@@ -719,24 +724,24 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Capacity warning in East Stand</h4>
-                        <Badge className="bg-blue-500">Low Priority</Badge>
+                        <h4 className="font-medium">{t("capacity-warning")}</h4>
+                        <Badge className="bg-blue-500">{t("low-priority")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Section approaching 95% capacity. Consider redirecting flow.
-                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("section-approaching-capacity")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Reported 3 minutes ago</span>
+                        <span>
+                          {t("reported")} 3 {t("minutes-ago")}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 mt-3">
                         <Button size="sm" variant="outline" className="h-8">
-                          View Section
+                          {t("view-section")}
                         </Button>
                         <Button size="sm" className="h-8">
-                          Adjust Flow
+                          {t("adjust-flow")}
                         </Button>
                       </div>
                     </div>
@@ -747,15 +752,15 @@ export function StadiumMetrics() {
 
             <TabsContent value="resolved" className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Recently Resolved</h3>
+                <h3 className="font-medium">{t("recently-resolved")}</h3>
                 <Select defaultValue="today">
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Time period" />
+                    <SelectValue placeholder={t("time-period")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="today">Today</SelectItem>
-                    <SelectItem value="week">This Week</SelectItem>
-                    <SelectItem value="month">This Month</SelectItem>
+                    <SelectItem value="today">{t("today")}</SelectItem>
+                    <SelectItem value="week">{t("this-week")}</SelectItem>
+                    <SelectItem value="month">{t("this-month")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -768,14 +773,16 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Suspicious package</h4>
-                        <Badge variant="outline">Resolved</Badge>
+                        <h4 className="font-medium">{t("suspicious-package")}</h4>
+                        <Badge variant="outline">{t("resolved")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">False alarm. Package inspected and cleared.</p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("false-alarm")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Resolved 15 minutes ago</span>
+                        <span>
+                          {t("resolved")} 15 {t("minutes-ago")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -788,14 +795,16 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Gate malfunction</h4>
-                        <Badge variant="outline">Resolved</Badge>
+                        <h4 className="font-medium">{t("gate-malfunction")}</h4>
+                        <Badge variant="outline">{t("resolved")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">South Gate 3 technical issue fixed.</p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("south-gate-3-fixed")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Resolved 45 minutes ago</span>
+                        <span>
+                          {t("resolved")} 45 {t("minutes-ago")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -808,16 +817,16 @@ export function StadiumMetrics() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-medium">Crowd congestion</h4>
-                        <Badge variant="outline">Resolved</Badge>
+                        <h4 className="font-medium">{t("crowd-congestion")}</h4>
+                        <Badge variant="outline">{t("resolved")}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Concession area congestion resolved by opening additional lanes.
-                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">{t("concession-area-congestion-resolved")}</p>
 
                       <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span>Resolved 1 hour ago</span>
+                        <span>
+                          {t("resolved")} 1 {t("hour-ago")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -827,85 +836,85 @@ export function StadiumMetrics() {
 
             <TabsContent value="settings" className="space-y-4">
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Alert Preferences</h3>
-                <p className="text-sm text-muted-foreground mt-1">Configure alert thresholds and notifications</p>
+                <h3 className="font-medium">{t("alert-preferences")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("configure-alert-thresholds")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Security Alerts</Label>
+                    <Label className="cursor-pointer">{t("security-alerts")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Medical Alerts</Label>
+                    <Label className="cursor-pointer">{t("medical-alerts")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Capacity Alerts</Label>
+                    <Label className="cursor-pointer">{t("capacity-alerts")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Weather Alerts</Label>
+                    <Label className="cursor-pointer">{t("weather-alerts")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">System Alerts</Label>
+                    <Label className="cursor-pointer">{t("system-alerts")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Minimum Alert Priority</Label>
+                    <Label>{t("minimum-alert-priority")}</Label>
                     <Select defaultValue="low">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select minimum priority" />
+                        <SelectValue placeholder={t("select-minimum-priority")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="low">Low (All Alerts)</SelectItem>
-                        <SelectItem value="medium">Medium & High Only</SelectItem>
-                        <SelectItem value="high">High Priority Only</SelectItem>
+                        <SelectItem value="low">{t("low-all-alerts")}</SelectItem>
+                        <SelectItem value="medium">{t("medium-high-only")}</SelectItem>
+                        <SelectItem value="high">{t("high-priority-only")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <Button className="w-full">Save Preferences</Button>
+                  <Button className="w-full">{t("save-preferences")}</Button>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Notification Methods</h3>
-                <p className="text-sm text-muted-foreground mt-1">Choose how you want to receive alerts</p>
+                <h3 className="font-medium">{t("notification-methods")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("choose-how-receive-alerts")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Dashboard Notifications</Label>
+                    <Label className="cursor-pointer">{t("dashboard-notifications")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Email Notifications</Label>
+                    <Label className="cursor-pointer">{t("email-notifications")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">SMS Notifications</Label>
+                    <Label className="cursor-pointer">{t("sms-notifications")}</Label>
                     <Switch />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Mobile App Push Notifications</Label>
+                    <Label className="cursor-pointer">{t("mobile-app-push-notifications")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Email Recipients</Label>
+                    <Label>{t("email-recipients")}</Label>
                     <Input defaultValue="operations@stadium.com, security@stadium.com" />
-                    <p className="text-xs text-muted-foreground">Comma-separated list of email addresses</p>
+                    <p className="text-xs text-muted-foreground">{t("comma-separated-list")}</p>
                   </div>
 
-                  <Button className="w-full">Update Notification Settings</Button>
+                  <Button className="w-full">{t("update-notification-settings")}</Button>
                 </div>
               </div>
             </TabsContent>
@@ -919,16 +928,16 @@ export function StadiumMetrics() {
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
               <Clock className="h-5 w-5 text-arena-teal" />
-              Match Information
+              {t("match-information")}
             </DialogTitle>
-            <DialogDescription>Al Hilal vs Al Nassr - Saudi Pro League</DialogDescription>
+            <DialogDescription>Al Hilal vs Al Nassr - {t("saudi-pro-league")}</DialogDescription>
           </DialogHeader>
 
           <Tabs defaultValue="overview" className="mt-4">
             <TabsList className="grid grid-cols-3 mb-4">
-              <TabsTrigger value="overview">Match Overview</TabsTrigger>
-              <TabsTrigger value="timeline">Timeline</TabsTrigger>
-              <TabsTrigger value="operations">Operations</TabsTrigger>
+              <TabsTrigger value="overview">{t("match-overview")}</TabsTrigger>
+              <TabsTrigger value="timeline">{t("timeline")}</TabsTrigger>
+              <TabsTrigger value="operations">{t("operations")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">
@@ -941,7 +950,7 @@ export function StadiumMetrics() {
 
                   <div className="flex flex-col items-center">
                     <div className="text-3xl font-bold">2 - 1</div>
-                    <div className="text-sm text-muted-foreground">65:12 (Second Half)</div>
+                    <div className="text-sm text-muted-foreground">65:12 ({t("second-half")})</div>
                   </div>
 
                   <div className="flex flex-col items-center">
@@ -953,62 +962,62 @@ export function StadiumMetrics() {
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Kickoff Time</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("kickoff-time")}</h3>
                   <p className="text-xl font-bold mt-1">14:00</p>
-                  <p className="text-xs text-muted-foreground mt-1">Local Time (AST)</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("local-time")} (AST)</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Current Time</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("current-time")}</h3>
                   <p className="text-xl font-bold mt-1">65:12</p>
-                  <p className="text-xs text-muted-foreground mt-1">Second Half</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("second-half")}</p>
                 </div>
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-muted-foreground">Expected End</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground">{t("expected-end")}</h3>
                   <p className="text-xl font-bold mt-1">15:45</p>
-                  <p className="text-xs text-muted-foreground mt-1">Approx. (no extra time)</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("approx-no-extra-time")}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Match Details</h3>
+                  <h3 className="font-medium">{t("match-details")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Competition</span>
-                      <span className="font-medium">Saudi Pro League</span>
+                      <span>{t("competition")}</span>
+                      <span className="font-medium">{t("saudi-pro-league")}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Matchday</span>
-                      <span className="font-medium">Round 24</span>
+                      <span>{t("matchday")}</span>
+                      <span className="font-medium">{t("round")} 24</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Referee</span>
+                      <span>{t("referee")}</span>
                       <span className="font-medium">Mohammed Al-Hoaish</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Weather</span>
-                      <span className="font-medium">38°C, Clear</span>
+                      <span>{t("weather")}</span>
+                      <span className="font-medium">38°C, {t("clear")}</span>
                     </div>
                   </div>
                 </div>
                 <div className="border rounded-lg p-4">
-                  <h3 className="font-medium">Stadium Information</h3>
+                  <h3 className="font-medium">{t("stadium-information")}</h3>
                   <div className="mt-2 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Venue</span>
-                      <span className="font-medium">King Fahd Stadium</span>
+                      <span>{t("venue")}</span>
+                      <span className="font-medium">{t("king-fahd-stadium")}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Capacity</span>
+                      <span>{t("capacity")}</span>
                       <span className="font-medium">40,000</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Attendance</span>
+                      <span>{t("attendance")}</span>
                       <span className="font-medium">32,458 (81%)</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Pitch Condition</span>
-                      <span className="font-medium">Excellent</span>
+                      <span>{t("pitch-condition")}</span>
+                      <span className="font-medium">{t("excellent")}</span>
                     </div>
                   </div>
                 </div>
@@ -1017,10 +1026,10 @@ export function StadiumMetrics() {
 
             <TabsContent value="timeline" className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Match Timeline</h3>
+                <h3 className="font-medium">{t("match-timeline")}</h3>
                 <Button variant="outline" size="sm" className="h-8">
                   <BarChart3 className="h-3.5 w-3.5 mr-1" />
-                  Match Stats
+                  {t("match-stats")}
                 </Button>
               </div>
 
@@ -1028,77 +1037,65 @@ export function StadiumMetrics() {
                 <div className="border-l-4 border-green-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-green-500 mr-2">62'</Badge>
-                    <h4 className="font-medium">GOAL! Al Hilal</h4>
+                    <h4 className="font-medium">{t("goal")}! Al Hilal</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Salem Al-Dawsari scores from a penalty kick! Al Hilal leads 2-1.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("salem-al-dawsari-scores")}</p>
                 </div>
 
                 <div className="border-l-4 border-yellow-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-yellow-500 mr-2">58'</Badge>
-                    <h4 className="font-medium">Yellow Card</h4>
+                    <h4 className="font-medium">{t("yellow-card")}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Saud Abdulhamid (Al Hilal) receives a yellow card for a tactical foul.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("saud-abdulhamid-yellow")}</p>
                 </div>
 
                 <div className="border-l-4 border-blue-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-blue-500 mr-2">46'</Badge>
-                    <h4 className="font-medium">Second Half Begins</h4>
+                    <h4 className="font-medium">{t("second-half-begins")}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    The second half is underway with the score at 1-1.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("second-half-underway")}</p>
                 </div>
 
                 <div className="border-l-4 border-muted pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-muted-foreground mr-2">45'</Badge>
-                    <h4 className="font-medium">Half Time</h4>
+                    <h4 className="font-medium">{t("half-time")}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    The referee blows for half time with the score level at 1-1.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("referee-blows-half-time")}</p>
                 </div>
 
                 <div className="border-l-4 border-green-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-green-500 mr-2">32'</Badge>
-                    <h4 className="font-medium">GOAL! Al Nassr</h4>
+                    <h4 className="font-medium">{t("goal")}! Al Nassr</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Cristiano Ronaldo equalizes with a powerful header! Score is 1-1.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("ronaldo-equalizes")}</p>
                 </div>
 
                 <div className="border-l-4 border-green-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-green-500 mr-2">14'</Badge>
-                    <h4 className="font-medium">GOAL! Al Hilal</h4>
+                    <h4 className="font-medium">{t("goal")}! Al Hilal</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Aleksandar Mitrović scores with a close-range finish! Al Hilal leads 1-0.
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("mitrovic-scores")}</p>
                 </div>
 
                 <div className="border-l-4 border-blue-500 pl-3 py-1">
                   <div className="flex items-center">
                     <Badge className="bg-blue-500 mr-2">1'</Badge>
-                    <h4 className="font-medium">Kick Off</h4>
+                    <h4 className="font-medium">{t("kick-off")}</h4>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">The match begins at King Fahd Stadium.</p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("match-begins")}</p>
                 </div>
               </div>
             </TabsContent>
 
             <TabsContent value="operations" className="space-y-4">
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Operational Timeline</h3>
-                <p className="text-sm text-muted-foreground mt-1">Key operational events and upcoming activities</p>
+                <h3 className="font-medium">{t("operational-timeline")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("key-operational-events")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="flex items-center gap-3">
@@ -1106,8 +1103,8 @@ export function StadiumMetrics() {
                       <Check className="h-4 w-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium">Pre-match Operations</h4>
-                      <p className="text-xs text-muted-foreground">Gates opened at 11:00. Security checks completed.</p>
+                      <h4 className="text-sm font-medium">{t("pre-match-operations")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("gates-opened-at")} 11:00.</p>
                     </div>
                   </div>
 
@@ -1116,8 +1113,8 @@ export function StadiumMetrics() {
                       <Check className="h-4 w-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium">First Half Operations</h4>
-                      <p className="text-xs text-muted-foreground">Concessions and facilities operating normally.</p>
+                      <h4 className="text-sm font-medium">{t("first-half-operations")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("concessions-operating-normally")}</p>
                     </div>
                   </div>
 
@@ -1126,10 +1123,8 @@ export function StadiumMetrics() {
                       <Clock className="h-4 w-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium">Second Half Operations</h4>
-                      <p className="text-xs text-muted-foreground">
-                        In progress. Monitoring crowd flow and facilities.
-                      </p>
+                      <h4 className="text-sm font-medium">{t("second-half-operations")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("in-progress-monitoring")}</p>
                     </div>
                   </div>
 
@@ -1138,49 +1133,49 @@ export function StadiumMetrics() {
                       <Clock className="h-4 w-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium">Post-match Operations</h4>
-                      <p className="text-xs text-muted-foreground">Scheduled to begin at approximately 15:45.</p>
+                      <h4 className="text-sm font-medium">{t("post-match-operations")}</h4>
+                      <p className="text-xs text-muted-foreground">{t("scheduled-to-begin")} 15:45.</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
-                <h3 className="font-medium">Operational Controls</h3>
-                <p className="text-sm text-muted-foreground mt-1">Manage match-related operations</p>
+                <h3 className="font-medium">{t("operational-controls")}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{t("manage-match-related-operations")}</p>
 
                 <div className="mt-4 space-y-4">
                   <div className="space-y-2">
-                    <Label>Post-match Exit Strategy</Label>
+                    <Label>{t("post-match-exit-strategy")}</Label>
                     <Select defaultValue="phased">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select exit strategy" />
+                        <SelectValue placeholder={t("select-exit-strategy")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="phased">Phased Exit (Default)</SelectItem>
-                        <SelectItem value="all">All Gates Open</SelectItem>
-                        <SelectItem value="sectional">Sectional Exit</SelectItem>
-                        <SelectItem value="vip-first">VIP Priority Exit</SelectItem>
+                        <SelectItem value="phased">{t("phased-exit-default")}</SelectItem>
+                        <SelectItem value="all">{t("all-gates-open")}</SelectItem>
+                        <SelectItem value="sectional">{t("sectional-exit")}</SelectItem>
+                        <SelectItem value="vip-first">{t("vip-priority-exit")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Extra Time Preparations</Label>
+                    <Label className="cursor-pointer">{t("extra-time-preparations")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Post-match Traffic Management</Label>
+                    <Label className="cursor-pointer">{t("post-match-traffic-management")}</Label>
                     <Switch defaultChecked />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <Label className="cursor-pointer">Prayer Break Accommodations</Label>
+                    <Label className="cursor-pointer">{t("prayer-break-accommodations")}</Label>
                     <Switch defaultChecked />
                   </div>
 
-                  <Button className="w-full">Update Match Operations</Button>
+                  <Button className="w-full">{t("update-match-operations")}</Button>
                 </div>
               </div>
             </TabsContent>
@@ -1214,6 +1209,8 @@ function MetricCard({
   extraContent,
   onMoreClick,
 }: MetricCardProps) {
+  const { t } = useLanguage()
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -1247,7 +1244,7 @@ function MetricCard({
                   onClick={onMoreClick}
                 >
                   <ChevronRight className="h-3.5 w-3.5 mr-1" />
-                  More Insights
+                  {t("more-insights")}
                 </Button>
               )}
             </CardContent>

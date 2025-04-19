@@ -10,7 +10,12 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+// Import the language context and switcher at the top
+import { useLanguage } from "@/contexts/language-context"
+import { LanguageSwitcher } from "@/components/language-switcher"
+
 export function CamerasHeader() {
+  const { t } = useLanguage()
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedStadium, setSelectedStadium] = useState("king-fahd")
   const [aiMode, setAiMode] = useState("standard")
@@ -31,21 +36,19 @@ export function CamerasHeader() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">Video Surveillance / مراقبة الفيديو</h1>
+              <h1 className="text-2xl font-bold">{t("video-surveillance")}</h1>
               <Badge className="bg-green-500 text-white">
                 <Sparkles className="h-3.5 w-3.5 mr-1" />
-                AI Active
+                {t("ai-active")}
               </Badge>
             </div>
-            <p className="mt-2 text-white/80 max-w-2xl">
-              Advanced AI-powered video monitoring and crowd analysis system
-            </p>
+            <p className="mt-2 text-white/80 max-w-2xl">{t("ai-powered-video-monitoring")}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-md">
               <Label htmlFor="live-mode" className="text-white cursor-pointer">
-                Live Feed
+                {t("live-feed")}
               </Label>
               <Switch
                 id="live-mode"
@@ -68,15 +71,17 @@ export function CamerasHeader() {
 
             <Select value={aiMode} onValueChange={setAiMode}>
               <SelectTrigger className="bg-white/10 border-white/20 text-white w-[180px]">
-                <SelectValue placeholder="Select AI mode" />
+                <SelectValue placeholder={t("select-ai-mode")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="standard">Standard Detection</SelectItem>
-                <SelectItem value="sentiment">Sentiment Analysis</SelectItem>
-                <SelectItem value="anomaly">Anomaly Detection</SelectItem>
-                <SelectItem value="lost">Lost Person Tracking</SelectItem>
+                <SelectItem value="standard">{t("standard-detection")}</SelectItem>
+                <SelectItem value="sentiment">{t("sentiment-analysis")}</SelectItem>
+                <SelectItem value="anomaly">{t("anomaly-detection")}</SelectItem>
+                <SelectItem value="lost">{t("lost-person-tracking")}</SelectItem>
               </SelectContent>
             </Select>
+
+            <LanguageSwitcher />
 
             <Tabs value={gridLayout} onValueChange={setGridLayout}>
               <TabsList className="bg-white/10 border-white/20">
@@ -100,11 +105,11 @@ export function CamerasHeader() {
                     disabled={isRefreshing}
                   >
                     <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
-                    <span className="sr-only">Refresh feeds</span>
+                    <span className="sr-only">{t("refresh")}</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Refresh camera feeds</p>
+                  <p>{t("refresh")}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -118,11 +123,13 @@ export function CamerasHeader() {
                     className="bg-white/10 border-white/20 text-white hover:bg-white/20"
                   >
                     <Info className="h-4 w-4" />
-                    <span className="sr-only">Camera information</span>
+                    <span className="sr-only">{t("camera-information")}</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Camera feeds last updated: 2 seconds ago</p>
+                  <p>
+                    {t("last-updated")}: 2 {t("seconds")} {t("ago")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -132,19 +139,19 @@ export function CamerasHeader() {
         <div className="mt-4 flex flex-wrap gap-2">
           <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-500/50">
             <Eye className="h-3.5 w-3.5 mr-1" />
-            Person Detection
+            {t("person-detection")}
           </Badge>
           <Badge variant="outline" className="bg-blue-500/20 text-blue-400 border-blue-500/50">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
-            Sentiment Analysis
+            {t("sentiment-analysis")}
           </Badge>
           <Badge variant="outline" className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">
             <AlertTriangle className="h-3.5 w-3.5 mr-1" />
-            Anomaly Detection
+            {t("anomaly-detection")}
           </Badge>
           <Badge variant="outline" className="bg-purple-500/20 text-purple-400 border-purple-500/50">
             <Camera className="h-3.5 w-3.5 mr-1" />
-            Lost Person Tracking
+            {t("lost-person-tracking")}
           </Badge>
         </div>
       </div>

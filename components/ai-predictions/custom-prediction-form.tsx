@@ -11,7 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sparkles } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 export function CustomPredictionForm() {
+  const { t } = useLanguage()
   const { toast } = useToast()
   const [isGenerating, setIsGenerating] = useState(false)
   const [formData, setFormData] = useState({
@@ -45,13 +49,13 @@ export function CustomPredictionForm() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Generate Custom Prediction</CardTitle>
-        <CardDescription>Create a tailored prediction for specific scenarios</CardDescription>
+        <CardTitle>{t("generate-custom-prediction")}</CardTitle>
+        <CardDescription>{t("create-tailored-prediction")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="eventType">Event Type</Label>
+            <Label htmlFor="eventType">{t("event-type")}</Label>
             <Select value={formData.eventType} onValueChange={(value) => handleChange("eventType", value)}>
               <SelectTrigger id="eventType">
                 <SelectValue placeholder="Select event type" />
@@ -66,7 +70,7 @@ export function CustomPredictionForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="attendanceEstimate">Estimated Attendance</Label>
+            <Label htmlFor="attendanceEstimate">{t("estimated-attendance")}</Label>
             <div className="flex items-center gap-2">
               <Slider
                 id="attendanceEstimate"
@@ -81,7 +85,7 @@ export function CustomPredictionForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="timeWindow">Prediction Window</Label>
+            <Label htmlFor="timeWindow">{t("prediction-window")}</Label>
             <Select value={formData.timeWindow} onValueChange={(value) => handleChange("timeWindow", value)}>
               <SelectTrigger id="timeWindow">
                 <SelectValue placeholder="Select time window" />
@@ -96,13 +100,13 @@ export function CustomPredictionForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="predictionType">Prediction Type</Label>
+            <Label htmlFor="predictionType">{t("prediction-type")}</Label>
             <Select value={formData.predictionType} onValueChange={(value) => handleChange("predictionType", value)}>
               <SelectTrigger id="predictionType">
                 <SelectValue placeholder="Select prediction type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="crowd">Crowd Flow</SelectItem>
+                <SelectItem value="crowd">{t("crowd-flow")}</SelectItem>
                 <SelectItem value="security">Security Incidents</SelectItem>
                 <SelectItem value="capacity">Section Capacity</SelectItem>
                 <SelectItem value="emergency">Emergency Response</SelectItem>
@@ -116,12 +120,12 @@ export function CustomPredictionForm() {
           {isGenerating ? (
             <>
               <div className="h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin mr-2" />
-              Generating...
+              {t("generating")}
             </>
           ) : (
             <>
               <Sparkles className="h-4 w-4 mr-2" />
-              Generate Prediction
+              {t("generate-prediction")}
             </>
           )}
         </Button>

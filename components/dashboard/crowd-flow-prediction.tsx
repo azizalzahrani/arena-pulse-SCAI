@@ -4,6 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 // Generate sample crowd flow data
 const generateCrowdFlowData = () => {
   const data = []
@@ -60,28 +63,30 @@ const generateCrowdFlowData = () => {
 const crowdFlowData = generateCrowdFlowData()
 
 export function CrowdFlowPrediction() {
+  const { t } = useLanguage()
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Crowd Flow Prediction</CardTitle>
-        <p className="text-sm text-muted-foreground">Historical and predicted crowd movement</p>
+        <CardTitle>{t("crowd-flow-prediction")}</CardTitle>
+        <p className="text-sm text-muted-foreground">{t("historical-and-predicted")}</p>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-primary"></div>
-            <span>Historical</span>
+            <span>{t("historical")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 border-t border-dashed border-primary"></div>
-            <span>Predicted</span>
+            <span>{t("predicted")}</span>
           </div>
         </div>
 
         <ChartContainer
           config={{
             crowd: {
-              label: "Crowd Flow",
+              label: t("crowd-flow-prediction"),
               color: "hsl(var(--primary))",
             },
           }}
@@ -100,7 +105,7 @@ export function CrowdFlowPrediction() {
                 strokeWidth={2}
                 dot={{ r: 2 }}
                 activeDot={{ r: 4 }}
-                name="Crowd Flow"
+                name={t("crowd-flow-prediction")}
                 strokeDasharray={(d) => (d.isPrediction ? "5 5" : "0")}
               />
             </LineChart>
@@ -109,11 +114,11 @@ export function CrowdFlowPrediction() {
 
         <div className="flex justify-between mt-2 text-xs">
           <div className="text-center">
-            <div className="font-medium">Asr</div>
+            <div className="font-medium">{t("asr")}</div>
             <div className="text-muted-foreground">15:00</div>
           </div>
           <div className="text-center">
-            <div className="font-medium">Match End</div>
+            <div className="font-medium">{t("match-end")}</div>
             <div className="text-muted-foreground">17:45</div>
           </div>
         </div>

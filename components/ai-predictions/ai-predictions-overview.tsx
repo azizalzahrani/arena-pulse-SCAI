@@ -7,51 +7,55 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Users, Calendar, Thermometer } from "lucide-react"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 export function AIPredictionsOverview() {
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState("crowd")
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Prediction Capabilities</CardTitle>
-        <CardDescription>Explore the different types of predictions our AI system can generate</CardDescription>
+        <CardTitle>{t("prediction-capabilities")}</CardTitle>
+        <CardDescription>{t("explore-different-types")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="crowd" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid grid-cols-4 mb-6">
             <TabsTrigger value="crowd" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Crowd Flow</span>
+              <span className="hidden sm:inline">{t("crowd-flow")}</span>
             </TabsTrigger>
             <TabsTrigger value="events" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Event Impact</span>
+              <span className="hidden sm:inline">{t("event-impact")}</span>
             </TabsTrigger>
             <TabsTrigger value="weather" className="flex items-center gap-2">
               <Thermometer className="h-4 w-4" />
-              <span className="hidden sm:inline">Weather Effects</span>
+              <span className="hidden sm:inline">{t("weather-effects")}</span>
             </TabsTrigger>
             <TabsTrigger value="anomalies" className="flex items-center gap-2">
               <Brain className="h-4 w-4" />
-              <span className="hidden sm:inline">Anomaly Detection</span>
+              <span className="hidden sm:inline">{t("anomaly-detection")}</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="crowd" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FeatureCard
-                title="Crowd Density Prediction"
-                description="Predict crowd density in different stadium sections up to 2 hours in advance."
+                title={t("crowd-density-prediction")}
+                description={t("predict-crowd-density")}
                 icon={<Users className="h-5 w-5 text-arena-purple" />}
               />
               <FeatureCard
-                title="Flow Pattern Analysis"
-                description="Analyze movement patterns to optimize staff placement and gate operations."
+                title={t("flow-pattern-analysis")}
+                description={t("analyze-movement-patterns")}
                 icon={<Users className="h-5 w-5 text-arena-purple" />}
               />
               <FeatureCard
-                title="Capacity Alerts"
-                description="Receive early warnings when sections are predicted to approach capacity."
+                title={t("capacity-alerts")}
+                description={t("receive-early-warnings")}
                 icon={<Users className="h-5 w-5 text-arena-purple" />}
               />
             </div>
@@ -60,18 +64,18 @@ export function AIPredictionsOverview() {
           <TabsContent value="events" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FeatureCard
-                title="Prayer Time Impact"
-                description="Predict crowd movement during prayer times to manage flow and services."
+                title={t("prayer-time-impact")}
+                description={t("predict-crowd-movement")}
                 icon={<Calendar className="h-5 w-5 text-arena-blue" />}
               />
               <FeatureCard
-                title="Match Events"
-                description="Anticipate crowd reactions to goals, halftime, and match conclusion."
+                title={t("match-events")}
+                description={t("anticipate-crowd-reactions")}
                 icon={<Calendar className="h-5 w-5 text-arena-blue" />}
               />
               <FeatureCard
-                title="Post-Event Planning"
-                description="Optimize exit strategies based on predicted crowd dispersal patterns."
+                title={t("post-event-planning")}
+                description={t("optimize-exit-strategies")}
                 icon={<Calendar className="h-5 w-5 text-arena-blue" />}
               />
             </div>
@@ -80,18 +84,18 @@ export function AIPredictionsOverview() {
           <TabsContent value="weather" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FeatureCard
-                title="Temperature Impact"
-                description="Predict how temperature changes will affect crowd behavior and comfort."
+                title={t("temperature-impact")}
+                description={t("predict-how-temperature")}
                 icon={<Thermometer className="h-5 w-5 text-arena-orange" />}
               />
               <FeatureCard
-                title="Weather Alerts"
-                description="Receive advance warnings about weather conditions affecting operations."
+                title={t("weather-alerts")}
+                description={t("receive-advance-warnings")}
                 icon={<Thermometer className="h-5 w-5 text-arena-orange" />}
               />
               <FeatureCard
-                title="Climate Control"
-                description="Optimize HVAC systems based on predicted attendance and weather."
+                title={t("climate-control")}
+                description={t("optimize-hvac-systems")}
                 icon={<Thermometer className="h-5 w-5 text-arena-orange" />}
               />
             </div>
@@ -100,18 +104,18 @@ export function AIPredictionsOverview() {
           <TabsContent value="anomalies" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FeatureCard
-                title="Security Incidents"
-                description="Detect unusual patterns that may indicate security concerns."
+                title={t("security-incidents")}
+                description={t("detect-unusual-patterns")}
                 icon={<Brain className="h-5 w-5 text-arena-teal" />}
               />
               <FeatureCard
-                title="Medical Emergencies"
-                description="Identify potential medical incident hotspots before they occur."
+                title={t("medical-emergencies")}
+                description={t("identify-potential-medical")}
                 icon={<Brain className="h-5 w-5 text-arena-teal" />}
               />
               <FeatureCard
-                title="System Anomalies"
-                description="Predict potential system failures or performance issues."
+                title={t("system-anomalies")}
+                description={t("predict-potential-system")}
                 icon={<Brain className="h-5 w-5 text-arena-teal" />}
               />
             </div>

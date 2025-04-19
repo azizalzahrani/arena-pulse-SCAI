@@ -1,6 +1,8 @@
 import type React from "react"
 import "@/app/globals.css"
+import "@/app/rtl.css" // Import RTL styles
 import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/contexts/language-context"
 
 export const metadata = {
   title: "Arena Pulse - Stadium Management System",
@@ -15,14 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
   )
 }
-
-
-import './globals.css'

@@ -23,17 +23,28 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 
+// Import the language context at the top
+import { useLanguage } from "@/contexts/language-context"
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+  const { t, language } = useLanguage()
+
+  // Determine if we're in RTL mode
+  const isRTL = language === "ar"
 
   return (
-    <Sidebar {...props}>
+    <Sidebar className={isRTL ? "rtl-sidebar" : ""} {...props}>
       <SidebarHeader className="p-4">
         <ArenaPulseLogo />
         <div className="relative mt-4">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search..." className="w-full bg-background pl-8 text-sm" />
+          <Search className={`absolute ${isRTL ? "right-2.5" : "left-2.5"} top-2.5 h-4 w-4 text-muted-foreground`} />
+          <Input
+            type="search"
+            placeholder={t("search")}
+            className={`w-full bg-background ${isRTL ? "pr-8 text-right" : "pl-8 text-left"} text-sm`}
+          />
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -41,34 +52,34 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Dashboard" isActive={pathname === "/"} asChild>
-                  <a href="/">
+                <SidebarMenuButton tooltip={t("dashboard")} isActive={pathname === "/"} asChild>
+                  <a href="/" className={isRTL ? "flex flex-row-reverse items-center" : ""}>
                     <Home className="h-4 w-4" />
-                    <span>Dashboard</span>
+                    <span className={isRTL ? "mr-2" : "ml-2"}>{t("dashboard")}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Gate Overview" isActive={pathname === "/gate-overview"} asChild>
-                  <a href="/gate-overview">
+                <SidebarMenuButton tooltip={t("gate-overview")} isActive={pathname === "/gate-overview"} asChild>
+                  <a href="/gate-overview" className={isRTL ? "flex flex-row-reverse items-center" : ""}>
                     <Users className="h-4 w-4" />
-                    <span>Gate Overview</span>
+                    <span className={isRTL ? "mr-2" : "ml-2"}>{t("gate-overview")}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Video Feed" isActive={pathname === "/cameras"} asChild>
-                  <a href="/cameras">
+                <SidebarMenuButton tooltip={t("video-feed")} isActive={pathname === "/cameras"} asChild>
+                  <a href="/cameras" className={isRTL ? "flex flex-row-reverse items-center" : ""}>
                     <Camera className="h-4 w-4" />
-                    <span>Video Feed</span>
+                    <span className={isRTL ? "mr-2" : "ml-2"}>{t("video-feed")}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="AI Predictions" isActive={pathname === "/ai-predictions"} asChild>
-                  <a href="/ai-predictions">
+                <SidebarMenuButton tooltip={t("ai-predictions")} isActive={pathname === "/ai-predictions"} asChild>
+                  <a href="/ai-predictions" className={isRTL ? "flex flex-row-reverse items-center" : ""}>
                     <Sparkles className="h-4 w-4" />
-                    <span>AI Predictions</span>
+                    <span className={isRTL ? "mr-2" : "ml-2"}>{t("ai-predictions")}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -77,20 +88,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
-          <SidebarGroupLabel>Stadium Services</SidebarGroupLabel>
+          <SidebarGroupLabel className={isRTL ? "text-right" : ""}>{t("stadium-services")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Event Schedule">
+                <SidebarMenuButton
+                  tooltip={t("event-schedule")}
+                  className={isRTL ? "flex flex-row-reverse items-center" : ""}
+                >
                   <Calendar className="h-4 w-4" />
-                  <span>Event Schedule</span>
+                  <span className={isRTL ? "mr-2" : "ml-2"}>{t("event-schedule")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Parking Management" isActive={pathname === "/parking-management"} asChild>
-                  <a href="/parking-management">
+                <SidebarMenuButton
+                  tooltip={t("parking-management")}
+                  isActive={pathname === "/parking-management"}
+                  asChild
+                >
+                  <a href="/parking-management" className={isRTL ? "flex flex-row-reverse items-center" : ""}>
                     <Car className="h-4 w-4" />
-                    <span>Parking Management</span>
+                    <span className={isRTL ? "mr-2" : "ml-2"}>{t("parking-management")}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -99,13 +117,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarGroupLabel className={isRTL ? "text-right" : ""}>{t("settings")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Settings">
+                <SidebarMenuButton
+                  tooltip={t("settings")}
+                  className={isRTL ? "flex flex-row-reverse items-center" : ""}
+                >
                   <Cog className="h-4 w-4" />
-                  <span>Settings</span>
+                  <span className={isRTL ? "mr-2" : "ml-2"}>{t("settings")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -113,7 +134,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-        <div className="flex items-center justify-between">
+        <div className={`flex items-center ${isRTL ? "justify-between flex-row-reverse" : "justify-between"}`}>
           <Button
             variant="ghost"
             size="icon"
