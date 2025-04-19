@@ -173,8 +173,7 @@ arena-pulse/
 ├── contexts/             # React contexts
 │   └── language-context.tsx # Internationalization context
 ├── public/               # Static assets
-└── 
-
+└── ...
 \`\`\`
 
 ## 🤝 Contributing
