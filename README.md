@@ -185,9 +185,25 @@ To add a new language:
 
 ```plaintext
 
-arena-pulse/ ├── app/ # Next.js App Router pages │ ├── ai-predictions/ # AI predictions page │ ├── cameras/ # Camera surveillance page │ ├── gate-overview/ # Gate management page │ ├── parking-management/ # Parking management page │ └── ... ├── components/ # React components │ ├── ai-predictions/ # AI prediction components │ ├── cameras/ # Camera components │ ├── dashboard/ # Dashboard components │ ├── gate-overview/ # Gate management components │ ├── parking-management/ # Parking components │ └── ... ├── contexts/ # React contexts │ └── language-context.tsx # Internationalization context ├── public/ # Static assets └── ...
+arena-pulse/
+├── app/ # Next.js App Router pages │
+├── ai-predictions/ # AI predictions page │
+├── cameras/ # Camera surveillance page │
+├── gate-overview/ # Gate management page │
+├── parking-management/ # Parking management page │
+└── ...
+├── components/ # React components │
+├── ai-predictions/ # AI prediction components │
+├── cameras/ # Camera components │
+├── dashboard/ # Dashboard components │
+├── gate-overview/ # Gate management components │
+├── parking-management/ # Parking components │
+└── ...
+├── contexts/ # React contexts │
+└── language-context.tsx # Internationalization context
+├── public/ # Static assets
+└── ...
 ```
-\`\`\`
 
 ## 🤝 Contributing
 
