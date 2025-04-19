@@ -92,32 +92,32 @@ Arena Pulse integrates advanced AI throughout the platform:
 ### Installation
 
 1. **Clone the repository**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/your-username/arena-pulse.git
    cd arena-pulse
-   \`\`\`
+   ```
 
 2. **Install dependencies**
-   \`\`\`bash
+   ```bash
    npm install
    # or
    yarn install
-   \`\`\`
+   ```
 
 3. **Set up environment variables**
    Create a `.env.local` file in the root directory:
-   \`\`\`
+   ```
    NEXT_PUBLIC_API_URL=your_api_url
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   \`\`\`
+   ```
 
 4. **Run the development server**
-   \`\`\`bash
+   ```bash
    npm run dev
    # or
    yarn dev
-   \`\`\`
+   ```
 
 5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000) to see the application
@@ -125,18 +125,18 @@ Arena Pulse integrates advanced AI throughout the platform:
 ### Build for Production
 
 1. **Create a production build**
-   \`\`\`bash
+   ```bash
    npm run build
    # or
    yarn build
-   \`\`\`
+   ```
 
 2. **Start the production server**
-   \`\`\`bash
+   ```bash
    npm run start
    # or
    yarn start
-   \`\`\`
+   ```
 
 ### Deployment
 
@@ -183,8 +183,10 @@ To add a new language:
 
 ## 📁 Project Structure
 
-\`\`\`
+```plaintext
+
 arena-pulse/ ├── app/ # Next.js App Router pages │ ├── ai-predictions/ # AI predictions page │ ├── cameras/ # Camera surveillance page │ ├── gate-overview/ # Gate management page │ ├── parking-management/ # Parking management page │ └── ... ├── components/ # React components │ ├── ai-predictions/ # AI prediction components │ ├── cameras/ # Camera components │ ├── dashboard/ # Dashboard components │ ├── gate-overview/ # Gate management components │ ├── parking-management/ # Parking components │ └── ... ├── contexts/ # React contexts │ └── language-context.tsx # Internationalization context ├── public/ # Static assets └── ...
+```
 \`\`\`
 
 ## 🤝 Contributing
